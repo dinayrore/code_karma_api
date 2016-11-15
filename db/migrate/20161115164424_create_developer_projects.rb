@@ -2,7 +2,7 @@
 class CreateDeveloperProjects < ActiveRecord::Migration[5.0]
   def change
     create_table :developer_projects do |t|
-      t.string :percentage_complete, default: "0%"
+      t.integer :percentage_complete, default: 0
       t.string :est_completion_date
       t.integer :project_id, foreign_key: true
       t.integer :developer_id, foreign_key: true
