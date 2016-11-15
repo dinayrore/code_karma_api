@@ -21,7 +21,7 @@ gem 'omniauth-github'
 
 group :development, :test do
   gem 'byebug', platform: :mri
-  gem 'rails-pry'
+  gem 'pry-rails'
 end
 
 group :development do

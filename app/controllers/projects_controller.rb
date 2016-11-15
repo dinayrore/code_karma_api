@@ -1,0 +1,2 @@
+class ProjectsController < ApplicationRecord
+end
