@@ -2,6 +2,7 @@
 class SessionsController < ApplicationController
   skip_before_action :check_user, only: [:create]
   def create
+    binding.pry
     data = request.env['omniauth.auth']
 
     user = User.find_by email: data.info.email
@@ -13,7 +14,7 @@ class SessionsController < ApplicationController
     else
       user = User.create!(
 
-        account_type:      data.account,
+        # account_type:      data.account, to determine which user to save to...
         code_karma_token:  SecureRandom.uuid,
         github_token:      data.credentials.token,
         github_oauth_data: data.to_json,
