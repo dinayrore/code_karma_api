@@ -1,8 +1,7 @@
 #
-class SessionsController < ApplicationRecord
+class SessionsController < ApplicationController
   skip_before_action :check_user, only: [:create]
   def create
-binding.pry
     data = request.env['omniauth.auth']
 
     user = User.find_by email: data.info.email
