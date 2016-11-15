@@ -15,4 +15,6 @@ class UsersController < ApplicationRecord
   #
   #   redirect_to "app.example.com/#{user.api_token}"
   # end
+  def show
+  end
 end
