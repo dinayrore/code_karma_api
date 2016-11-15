@@ -9,7 +9,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.json :github_oauth_data
       t.string :email
 
-      t.timestamp
+      t.timestamps
     end
   end
 end
