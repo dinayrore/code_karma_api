@@ -15,6 +15,5 @@ class SessionsController < ApplicationController
       end
     end
     redirect_to "https://samanthasheadavis.github.io/codeKarma/#/redirect/#{user.code_karma_token}"
-    binding.pry
   end
 end
