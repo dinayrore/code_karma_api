@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20161115164424) do
     t.string   "description"
     t.string   "github_repo_url"
     t.string   "active_site_url"
+    t.string   "fix_type"
     t.boolean  "fulfilled"
     t.integer  "client_id"
     t.datetime "created_at",        null: false
