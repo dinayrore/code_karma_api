@@ -1,2 +1,2 @@
-class DevelopersController < ApplicationRecord
+class DevelopersController < ApplicationController
 end
