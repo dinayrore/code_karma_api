@@ -1,5 +1,5 @@
+#
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
   before_action :check_user
   include SessionsHelper
 
@@ -9,9 +9,9 @@ class ApplicationController < ActionController::Base
 
   def check_user
     if params[:token].nil?
-      render json: { error: "No Token" }, status: 401
+      render json: { error: 'No Token' }, status: 401
     elsif current_user.nil?
-      render json: { error: "Invalid Token" }, status: 401
+      render json: { error: 'Invalid Token' }, status: 401
     end
   end
 
