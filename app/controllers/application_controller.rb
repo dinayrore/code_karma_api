@@ -2,9 +2,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :check_user
   include SessionsHelper
-  
+
   def current_user
-    @current_user ||= User.find_by api_token: params[:token]
+    @current_user ||= User.find_by code_karma_token: params[:token]
   end
 
   def check_user
