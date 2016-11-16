@@ -6,32 +6,15 @@ class SessionsController < ApplicationController
     data = request.env['omniauth.auth']
     user = User.find_by email: data.info.email
     if user
-      user.update!(
-        github_token:      data.credentials.token,
-        github_oauth_data: data.to_json
-      )
+      update(user, data)
     else
       if params['account'] == 'developer'
-        developer = Developer.create!
-        user = User.create!(
-          account:           developer,
-          code_karma_token:  SecureRandom.uuid,
-          github_token:      data.credentials.token,
-          github_oauth_data: data.to_json,
-          email:             data.info.email
-        )
+        user = create_developer(data)
       else
-        client = Client.create!
-        user = User.create!(
-          account:           client,
-          code_karma_token:  SecureRandom.uuid,
-          github_token:      data.credentials.token,
-          github_oauth_data: data.to_json,
-          email:             data.info.email
-        )
+        user = create_client(data)
       end
     end
-
     redirect_to "https://samanthasheadavis.github.io/codeKarma/#/redirect/#{user.code_karma_token}"
+    binding.pry
   end
 end
