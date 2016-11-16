@@ -1,4 +1,4 @@
-# Users table polymorphic relationships set through account_id, account_type
+# Users table polymorphic relationships set through account
 class CreateUsers < ActiveRecord::Migration[5.0]
   def change
     create_table :users do |t|
