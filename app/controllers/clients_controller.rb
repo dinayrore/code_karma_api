@@ -1,2 +1,2 @@
-class ClientsController < ApplicationRecord
+class ClientsController < ApplicationController
 end
