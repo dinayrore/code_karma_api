@@ -1,10 +1,9 @@
 #
 class SessionsController < ApplicationController
   skip_before_action :check_user, only: [:create]
-  def create
-    binding.pry
-    data = request.env['omniauth.auth']
 
+  def create
+    data = request.env['omniauth.auth']
     user = User.find_by email: data.info.email
     if user
       user.update!(
@@ -12,14 +11,25 @@ class SessionsController < ApplicationController
         github_oauth_data: data.to_json
       )
     else
-      user = User.create!(
-
-        # account_type:      data.account, to determine which user to save to...
-        code_karma_token:  SecureRandom.uuid,
-        github_token:      data.credentials.token,
-        github_oauth_data: data.to_json,
-        email:             data.info.email
-      )
+      if params['account'] == 'developer'
+        developer = Developer.create!
+        user = User.create!(
+          account:           developer,
+          code_karma_token:  SecureRandom.uuid,
+          github_token:      data.credentials.token,
+          github_oauth_data: data.to_json,
+          email:             data.info.email
+        )
+      else
+        client = Client.create!
+        user = User.create!(
+          account:           client,
+          code_karma_token:  SecureRandom.uuid,
+          github_token:      data.credentials.token,
+          github_oauth_data: data.to_json,
+          email:             data.info.email
+        )
+      end
     end
 
     redirect_to "https://samanthasheadavis.github.io/codeKarma/#/redirect/#{user.code_karma_token}"
