@@ -1,2 +1,2 @@
-class DeveloperProjectsController < ApplicationRecord
+class DeveloperProjectsController < ApplicationController
 end
