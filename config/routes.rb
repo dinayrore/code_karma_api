@@ -5,5 +5,5 @@ Rails.application.routes.draw do
 
   get '/projects/show', to: 'projects#show'
 
-  resources :projects, only: [:index]
+  resources :projects, only: [:index, :create, :update]
 end
