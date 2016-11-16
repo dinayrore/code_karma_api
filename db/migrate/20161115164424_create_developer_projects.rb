@@ -4,17 +4,10 @@ class CreateDeveloperProjects < ActiveRecord::Migration[5.0]
     create_table :developer_projects do |t|
       t.integer :percentage_complete, default: 0
       t.string :est_completion_date
-      t.integer :project_id, foreign_key: true
-      t.integer :developer_id, foreign_key: true
+      t.references :project, index: true, foreign_key: true
+      t.references :developer, index: true, foreign_key: true
 
       t.timestamps
     end
   end
 end
-#percentage complete 0% default the edit
-#completeion date, store
-#completion date edit
-
-#completion date shown
-#percentage complete shown for client
-#developer working on it
