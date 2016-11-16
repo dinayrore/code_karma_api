@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :check_user
-
+  include SessionsHelper
+  
   def current_user
     @current_user ||= User.find_by api_token: params[:token]
   end
@@ -13,4 +14,5 @@ class ApplicationController < ActionController::Base
       render json: { error: "Invalid Token" }, status: 401
     end
   end
+
 end
