@@ -13,6 +13,5 @@ Rails.application.routes.draw do
 
   put '/developerprojects/edit', to: 'developerprojects#update'
 
-
-  resources :projects, only: [:index]
+  resources :projects, only: [:index, :create, :update]
 end

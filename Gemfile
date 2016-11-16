@@ -16,6 +16,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'httparty'
 gem 'figaro'
+gem 'rack-cors', '~> 0.4.0'
 
 group :development, :test do
   gem 'byebug', platform: :mri

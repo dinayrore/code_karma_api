@@ -8,4 +8,5 @@ class DeveloperProjectsController < ApplicationController
   def update
     @update_project_status = DeveloperProject.find(params[:id])
   end
+  #lets fill this out tommorow, or yall can get it done tonight.
 end
