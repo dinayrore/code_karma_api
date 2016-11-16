@@ -1,8 +1,8 @@
+# Index, Show, Post, Edit
 class ProjectsController < ApplicationController
   def index
     @projects = Project.all
-    @clients = User.where(account_type: "Client")
-    @clients.email
+    render :index
   end
 
   def show
