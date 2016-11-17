@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   get '/developer_projects/show', to: 'developerprojects#show'
 
-  resources :developer_projects, only: [:create, :update]
-  resources :projects, only: [:index, :create, :update]
+  resources :developer_projects, only: [:create, :update, :destroy]
+  resources :projects, only: [:index, :create, :update, :destroy]
   resources :clients, only: [:show]
   resources :developers, only: [:show]
 end

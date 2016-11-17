@@ -1,4 +1,4 @@
-# Index, Show, Post, Edit
+# Index, Show, Post, Edit, Delete
 class ProjectsController < ApplicationController
   def index
     @projects = Project.all
@@ -12,7 +12,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new project_params
-    @project.client_id = current_user.id
+    @project.client_id = @current_user.id
     if @project.save
       render :show
     else
@@ -21,13 +21,20 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = Project.find params[:id]
-    @project.client_id = current_user.id
-    if @project.update project_params
+    @project.id = Project.find params[:id]
+    if @project.client_id == @current_user.id
+      @project.update project_params
       render :show
     else
       render :json => { :errors => @project.errors.full_messages }, :status => 422
     end
+  end
+
+  def destroy
+    @project.id = Project.find params[:id]
+    @project.client_id = @current_user.id
+    @project.destroy
+    render json: {}, status: :ok
   end
 
   private

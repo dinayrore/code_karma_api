@@ -1,4 +1,4 @@
-#
+# Creates a User session for a particular account type
 class SessionsController < ApplicationController
   skip_before_action :check_user, only: [:create]
 
@@ -14,6 +14,6 @@ class SessionsController < ApplicationController
         user = create_client(data)
       end
     end
-    redirect_to "https://samanthasheadavis.github.io/codeKarma/#/redirect/#{user.code_karma_token}"
+    redirect_to "https://samanthasheadavis.github.io/codeKarma/#/redirect?token=#{user.code_karma_token}&account=#{user.account_type}"
   end
 end
