@@ -1,7 +1,7 @@
 # Show, Create, Update, Delete
 class DeveloperProjectsController < ApplicationController
   def show
-    @developer_projects = DeveloperProject.where(developer_id: @current_user.id)
+    @developer_projects = DeveloperProject.where(developer_id: @current_user.account.id)
     render json: @developer_projects
   end
 
