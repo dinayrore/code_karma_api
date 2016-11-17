@@ -6,6 +6,7 @@ class DeveloperProjectsController < ApplicationController
 
   def create
     @developer_project = DeveloperProject.new developer_project_params
+    @developer_project.developer_id = current_user.id
     if @developer_project.save
       render json: @developer_project
     else
@@ -15,6 +16,7 @@ class DeveloperProjectsController < ApplicationController
 
   def update
     @developer_project = DeveloperProject.find params[:id]
+    @developer_project.developer_id = current_user.id
     if @developer_project.update developer_project_params
       render json: @developer_project
     else
@@ -25,7 +27,6 @@ class DeveloperProjectsController < ApplicationController
   private
 
   def developer_project_params
-    params.permit(:percentage_complete, :est_completion_date,
-                  :project_id, :developer_id)
+    params.permit(:percentage_complete, :est_completion_date, :project_id)
   end
 end
