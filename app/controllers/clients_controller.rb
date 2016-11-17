@@ -2,7 +2,7 @@
 class ClientsController < ApplicationController
   def show
     @client = User.find params[:id]
-    if @client.account == @current_user.account
+    if @client.account_type == 'Client'
       @client_dashboard_data = @client.github_oauth_data
       render json: @client_dashboard_data
     else

@@ -2,7 +2,7 @@
 class DevelopersController < ApplicationController
   def show
     @developer = User.find params[:id]
-    if @developer.account == @current_user.account
+    if @developer.account_type == 'Developer'
       @developer_dashboard_data = @developer.github_oauth_data
       render json: @developer_dashboard_data
     else
