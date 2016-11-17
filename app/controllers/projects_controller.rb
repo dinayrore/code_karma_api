@@ -11,16 +11,6 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @added_project = Project.new(
-    params[:title],
-    params[:brief_description],
-    params[:description],
-    params[:github_repo_url]
-    )
-  end
-
-  def update
-    @edited_project = Project.find(params[:id])
     @project = Project.new project_params
     if @project.save
       render :show
