@@ -5,9 +5,8 @@ Rails.application.routes.draw do
 
   get '/projects/show', to: 'projects#show'
 
-  post '/developerprojects/create', to: 'developerprojects#create'
+  get '/developer_projects/show', to: 'developerprojects#show'
 
-  put '/developerprojects/edit', to: 'developerprojects#update'
-
+  resources :developer_projects, only: [:create, :update]
   resources :projects, only: [:index, :create, :update]
 end
