@@ -1,4 +1,4 @@
-#
+# Main functionality of the app lives here
 class ApplicationController < ActionController::Base
   before_action :check_user
   include SessionsHelper
@@ -14,5 +14,4 @@ class ApplicationController < ActionController::Base
       render json: { error: 'Invalid Token' }, status: 401
     end
   end
-
 end
