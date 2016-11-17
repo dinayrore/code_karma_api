@@ -1,4 +1,4 @@
-#
+# Creates a User session for a particular account type
 class SessionsController < ApplicationController
   skip_before_action :check_user, only: [:create]
 
