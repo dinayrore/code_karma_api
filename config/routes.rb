@@ -5,10 +5,6 @@ Rails.application.routes.draw do
 
   get '/projects/show', to: 'projects#show'
 
-  post '/projects/create', to: 'projects#create'
-
-  put '/projects/edit', to: 'projects#update'
-
   post '/developerprojects/create', to: 'developerprojects#create'
 
   put '/developerprojects/edit', to: 'developerprojects#update'
