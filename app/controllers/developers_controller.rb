@@ -2,7 +2,6 @@
 class DevelopersController < ApplicationController
   def show
     @developer = User.find params[:id]
-    binding.pry
     if @developer.account == @current_user.account
       @developer_dashboard_data = @developer.github_oauth_data
       render json: @developer_dashboard_data
