@@ -6,8 +6,13 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @client_projects = Project.where(client_id: @current_user.account.id)
-    render json: @client_projects
+    @project = Project.find params[:id]
+    if @project.client == @current_user.account
+      @client_projects = Project.where(client_id: @current_user.account.id)
+      render json: @client_projects
+    else
+      render json: { error: @project.errors.full_messages }, status: 403
+    end
   end
 
   def create
@@ -16,7 +21,7 @@ class ProjectsController < ApplicationController
     if @project.save
       render :show
     else
-      render :json => { :errors => @project.errors.full_messages }, :status => 422
+      render json: { errors: @project.errors.full_messages }, status: 422
     end
   end
 
@@ -26,7 +31,7 @@ class ProjectsController < ApplicationController
       @project.update project_params
       render :show
     else
-      render :json => { :errors => @project.errors.full_messages }, :status => 403
+      render json: { error: @project.errors.full_messages}, status: 403
     end
   end
 
@@ -36,7 +41,7 @@ class ProjectsController < ApplicationController
       @project.destroy
       render json: {}, status: :ok
     else
-      render :json => { :errors => @project.errors.full_messages }, :status => 403
+      render json: { error: @project.errors.full_messages }, status: 403
     end
   end
 

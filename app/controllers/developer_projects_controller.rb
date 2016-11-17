@@ -1,8 +1,13 @@
 # Show, Create, Update, Delete
 class DeveloperProjectsController < ApplicationController
   def show
-    @developer_projects = DeveloperProject.where(developer_id: @current_user.account.id)
-    render json: @developer_projects
+    @developer_project = DeveloperProject.find params[:id]
+    if @developer_project.developer == @current_user.account
+      @developer_projects = DeveloperProject.where(developer_id: @current_user.account.id)
+      render json: @developer_projects
+    else
+      render json: { error: @developer_project.errors.full_messages }, status: 403
+    end
   end
 
   def create
@@ -11,7 +16,7 @@ class DeveloperProjectsController < ApplicationController
     if @developer_project.save
       render json: @developer_project
     else
-      render :json => { :errors => @developer_project.errors.full_messages }, :status => 422
+      render json: { errors: @developer_project.errors.full_messages }, status: 422
     end
   end
 
@@ -21,7 +26,7 @@ class DeveloperProjectsController < ApplicationController
       @developer_project.update developer_project_params
       render json: @developer_project
     else
-      render :json => { :errors => @developer_project.errors.full_messages }, :status => 422
+      render json: { error: @developer_project.errors.full_messages }, status: 403
     end
   end
 
@@ -31,13 +36,13 @@ class DeveloperProjectsController < ApplicationController
       @developer_project.destroy
       render json: {}, status: :ok
     else
-      render :json => { :errors => @developer_project.errors.full_messages }, :status => 422
+      render json: { error: @developer_project.errors.full_messages }, status: 403
     end
   end
 
   private
 
   def developer_project_params
-    params.permit(:percentage_complete, :est_completion_date, :project_id)
+    params.permit(:percentage_complete, :est_completion_date)
   end
 end
