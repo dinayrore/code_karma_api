@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   resources :developer_projects, only: [:create, :update]
   resources :projects, only: [:index, :create, :update]
   resources :clients, only: [:show]
+  resources :developers, only: [:show]
 end
