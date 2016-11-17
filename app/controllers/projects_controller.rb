@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @client_projects = Project.where(client_id: @current_user.id)
+    @client_projects = Project.where(client_id: @current_user.account.id)
     render json: @client_projects
   end
 
