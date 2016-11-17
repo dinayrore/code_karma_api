@@ -12,6 +12,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new project_params
+    @project.client_id = current_user.id
     if @project.save
       render :show
     else
@@ -21,6 +22,7 @@ class ProjectsController < ApplicationController
 
   def update
     @project = Project.find params[:id]
+    @project.client_id = current_user.id
     if @project.update project_params
       render :show
     else
@@ -32,6 +34,6 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.permit(:title, :brief_description, :description, :github_repo_url,
-                  :active_site_url, :fulfilled, :fix_type, :client_id)
+                  :active_site_url, :fulfilled, :fix_type)
   end
 end
