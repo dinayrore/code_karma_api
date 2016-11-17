@@ -21,20 +21,23 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project.id = Project.find params[:id]
-    if @project.client_id == @current_user.id
+    @project = Project.find params[:id]
+    if @project.client == @current_user.account
       @project.update project_params
       render :show
     else
-      render :json => { :errors => @project.errors.full_messages }, :status => 422
+      render :json => { :errors => @project.errors.full_messages }, :status => 403
     end
   end
 
   def destroy
-    @project.id = Project.find params[:id]
-    @project.client_id = @current_user.id
-    @project.destroy
-    render json: {}, status: :ok
+    @project = Project.find params[:id]
+    if @project.client == @current_user.account
+      @project.destroy
+      render json: {}, status: :ok
+    else
+      render :json => { :errors => @project.errors.full_messages }, :status => 403
+    end
   end
 
   private
