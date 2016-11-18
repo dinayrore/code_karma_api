@@ -1,3 +1,4 @@
+# Community Feed Questions Controller
 class KarmaQuestionsController < ApplicationController
   def index
     @show_all_questions = KarmaQuestion.all
@@ -6,10 +7,11 @@ class KarmaQuestionsController < ApplicationController
       all_questions_and_comments[question] = question.karma_comment
       show_all_questions_and_comments = all_questions_and_comments[question]
     end
-    if show_all_questions_and_comments.save
-      render json: show_all_questions_and_comments
+    @user = @current_user
+    if @user.account_type == 'Developer'
+      render json: all_questions_and_comments
     else
-      render json: { error: show_all_questions_and_comments.errors.full_messages }, status: 400
+      render json: { error: 'Incorrect User Type Match' }, status: 403
     end
   end
 
