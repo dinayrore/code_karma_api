@@ -1,3 +1,4 @@
+# 
 class CreateKarmaQuestions < ActiveRecord::Migration[5.0]
   def change
     create_table :karma_questions do |t|
