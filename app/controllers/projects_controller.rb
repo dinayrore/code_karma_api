@@ -54,10 +54,11 @@ class ProjectsController < ApplicationController
       owner = owner_repo_array[0]
       repo = owner_repo_array[1]
       github_api = "https://api.github.com/repos/#{owner}/#{repo}/forks"
-      # HTTParty.post(github_api,
-      # :headers => { 'Authorization' => "#{@developer.github_token}",
-      #               'Content-Type' => 'application/json' }
-      # )
+      e = HTTParty.post(github_api,
+      :headers => { 'Authorization' => "token #{@developer.github_token}",
+                    'Content-Type' => 'application/json',
+                    'User-Agent' => "Awesome-Octocat-App" }
+      )
     else
       render json: { error: @project.errors.full_messages }, status: 422
     end
