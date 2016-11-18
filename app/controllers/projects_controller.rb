@@ -45,6 +45,25 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def fork
+    @project = Project.find params[:id]
+    @developer = User.find_by(id: @current_user.id)
+    if @developer.account_type == 'Developer'
+      url = @project.github_repo_url
+      owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*)\/(\w*)/).first
+      owner = owner_repo_array[0]
+      repo = owner_repo_array[1]
+      github_api = "http://api.github.comrepos/#{owner}/#{repo}/forks"
+      binding.pry
+      HTTParty.post(github_api,
+      :headers => { 'Authorization' => "#{@developer.github_token}",
+                    'Content-Type' => 'application/json' }
+      )
+    else
+      render json: { error: @project.errors.full_messages }, status: 422
+    end
+  end
+
   private
 
   def project_params
