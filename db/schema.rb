@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117163054) do
+ActiveRecord::Schema.define(version: 20161118142306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,22 +32,42 @@ ActiveRecord::Schema.define(version: 20161117163054) do
   end
 
   create_table "developers", force: :cascade do |t|
-    t.integer  "karma_points"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "karma_points", default: 0
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "karma_comments", force: :cascade do |t|
+    t.string   "karma_comment"
+    t.integer  "comment_like",      default: 0
+    t.integer  "karma_question_id"
+    t.integer  "developer_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["developer_id"], name: "index_karma_comments_on_developer_id", using: :btree
+    t.index ["karma_question_id"], name: "index_karma_comments_on_karma_question_id", using: :btree
+  end
+
+  create_table "karma_questions", force: :cascade do |t|
+    t.string   "karma_question"
+    t.integer  "question_like",  default: 0
+    t.integer  "developer_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["developer_id"], name: "index_karma_questions_on_developer_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "title"
-    t.string   "brief_description"
-    t.string   "description"
-    t.string   "github_repo_url"
-    t.string   "active_site_url"
+    t.string   "title",                             null: false
+    t.string   "brief_description",                 null: false
+    t.string   "description",                       null: false
+    t.string   "github_repo_url",                   null: false
+    t.string   "active_site_url",                   null: false
     t.string   "fix_type"
-    t.boolean  "fulfilled"
+    t.boolean  "fulfilled",         default: false
     t.integer  "client_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.index ["client_id"], name: "index_projects_on_client_id", using: :btree
   end
 
@@ -60,9 +80,13 @@ ActiveRecord::Schema.define(version: 20161117163054) do
     t.string   "email"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.index ["account_type"], name: "index_users_on_account_type", using: :btree
   end
 
   add_foreign_key "developer_projects", "developers"
   add_foreign_key "developer_projects", "projects"
+  add_foreign_key "karma_comments", "developers"
+  add_foreign_key "karma_comments", "karma_questions"
+  add_foreign_key "karma_questions", "developers"
   add_foreign_key "projects", "clients"
 end
