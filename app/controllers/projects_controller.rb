@@ -54,7 +54,6 @@ class ProjectsController < ApplicationController
       owner = owner_repo_array[0]
       repo = owner_repo_array[1]
       github_api = "http://api.github.comrepos/#{owner}/#{repo}/forks"
-      binding.pry
       HTTParty.post(github_api,
       :headers => { 'Authorization' => "#{@developer.github_token}",
                     'Content-Type' => 'application/json' }
