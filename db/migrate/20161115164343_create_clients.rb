@@ -1,4 +1,4 @@
-# Clients table no further details needed at this time.
+# Clients are afiliated with organizations.
 class CreateClients < ActiveRecord::Migration[5.0]
   def change
     create_table :clients do |t|

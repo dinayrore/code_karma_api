@@ -14,6 +14,6 @@ class SessionsController < ApplicationController
         user = create_client(data)
       end
     end
-    redirect_to "https://samanthasheadavis.github.io/codeKarma/#/redirect?token=#{user.code_karma_token}&account=#{user.account_type}"
+    redirect_to "https://samanthasheadavis.github.io/codeKarma/#/redirect?token=#{user.code_karma_token}&account=#{user.account_type}&id=#{user.id}"
   end
 end
