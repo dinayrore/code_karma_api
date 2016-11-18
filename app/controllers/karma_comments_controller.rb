@@ -1,3 +1,4 @@
+# Community Feed Comments Controller
 class KarmaCommentsController < ApplicationController
   def create
     @karmaquestion = KarmaQuestion.find(params[:karmaquestion_id])
