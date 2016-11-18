@@ -18,7 +18,8 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new project_params
     @project.client_id = @current_user.id
-    if @project.save
+    if @project.client == @current_user.account
+      @project.save
       render :show
     else
       render json: { errors: @project.errors.full_messages }, status: 422
