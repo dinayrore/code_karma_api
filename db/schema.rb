@@ -57,6 +57,26 @@ ActiveRecord::Schema.define(version: 20161118142306) do
     t.index ["developer_id"], name: "index_karma_questions_on_developer_id", using: :btree
   end
 
+  create_table "karma_comments", force: :cascade do |t|
+    t.string   "karma_comment"
+    t.integer  "comment_like"
+    t.integer  "karma_question_id"
+    t.integer  "developer_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["developer_id"], name: "index_karma_comments_on_developer_id", using: :btree
+    t.index ["karma_question_id"], name: "index_karma_comments_on_karma_question_id", using: :btree
+  end
+
+  create_table "karma_questions", force: :cascade do |t|
+    t.string   "karma_question"
+    t.integer  "question_like",  default: 0
+    t.integer  "developer_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["developer_id"], name: "index_karma_questions_on_developer_id", using: :btree
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string   "title",                             null: false
     t.string   "brief_description",                 null: false

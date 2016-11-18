@@ -1,4 +1,4 @@
 class KarmaComment < ApplicationRecord
   belongs_to :developer
-  belongs_to :karmaquestion
+  belongs_to :karma_question
 end
