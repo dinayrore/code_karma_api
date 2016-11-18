@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
   def change
     create_table :users do |t|
       t.integer :account_id
-      t.string :account_type
+      t.string :account_type, index: true
       t.string :code_karma_token
       t.string :github_token
       t.json :github_oauth_data
