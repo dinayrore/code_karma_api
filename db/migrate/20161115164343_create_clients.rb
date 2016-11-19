@@ -2,6 +2,9 @@
 class CreateClients < ActiveRecord::Migration[5.0]
   def change
     create_table :clients do |t|
+      t.string :organization_name
+      t.string :organization_site
+
       t.timestamps
     end
   end
