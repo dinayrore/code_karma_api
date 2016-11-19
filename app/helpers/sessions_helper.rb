@@ -14,7 +14,8 @@ module SessionsHelper
       code_karma_token:  SecureRandom.uuid,
       github_token:      data.credentials.token,
       github_oauth_data: data.to_json,
-      email:             data.info.email
+      email:             data.info.email,
+      nickname:          data.info.nickname
     )
     user
   end
@@ -26,7 +27,8 @@ module SessionsHelper
       code_karma_token:  SecureRandom.uuid,
       github_token:      data.credentials.token,
       github_oauth_data: data.to_json,
-      email:             data.info.email
+      email:             data.info.email,
+      nickname:          data.info.nickname
     )
     user
   end
