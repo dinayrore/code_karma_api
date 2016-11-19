@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'users#show'
 
   get '/auth/github/callback', to: 'sessions#create'
-  get '/developer/total/user/points', to: 'developers#total_karma'
+  get '/developer/:id', to: 'developers#karma'
   post '/projects/:id', to: 'projects#fork'
   put '/karma_question/:id', to: 'karma_questions#like'
   put '/karma_comment/:id', to: 'karma_comments#like'
@@ -12,5 +12,5 @@ Rails.application.routes.draw do
   resources :clients, only: [:show]
   resources :developers, only: [:show]
   resources :karma_questions, only: [:index, :create, :update, :destroy]
-  resources :karma_comments, only: [:index, :create, :update, :destroy]
+  resources :karma_comments, only: [:create, :update, :destroy]
 end
