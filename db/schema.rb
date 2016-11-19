@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20161118142306) do
 
   create_table "developers", force: :cascade do |t|
     t.integer  "karma_points", default: 0
+    t.string   "skills"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
@@ -64,7 +65,6 @@ ActiveRecord::Schema.define(version: 20161118142306) do
     t.string   "brief_description",                 null: false
     t.string   "description",                       null: false
     t.string   "github_repo_url",                   null: false
-    t.string   "active_site_url",                   null: false
     t.string   "fix_type"
     t.boolean  "fulfilled",         default: false
     t.integer  "client_id"
@@ -80,7 +80,6 @@ ActiveRecord::Schema.define(version: 20161118142306) do
     t.string   "github_token"
     t.json     "github_oauth_data"
     t.string   "email"
-    t.string   "nickname"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["account_type"], name: "index_users_on_account_type", using: :btree
