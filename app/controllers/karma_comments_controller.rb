@@ -32,7 +32,6 @@ class KarmaCommentsController < ApplicationController
   end
 
   def like
-    binding.pry
     @comment = KarmaComment.find params[:id]
     if @comment.developer.user.account_type == 'Developer'
       @comment.update(comment_like: params[:comment_like] + 1)
