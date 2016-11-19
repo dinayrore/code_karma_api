@@ -4,6 +4,7 @@ class KarmaQuestionsController < ApplicationController
     @user = @current_user
     if @user.account_type == 'Developer'
       @questions = KarmaQuestion.all
+      @comments = KarmaComment.all
       render :index
     else
       render json: { error: 'Incorrect User' }, status: 403
@@ -45,7 +46,7 @@ class KarmaQuestionsController < ApplicationController
   def like
     @question = KarmaQuestion.find params[:id]
     if @comment.developer.user.account_type == 'Developer'
-      @question.update(question_like: params[:question_like])
+      @question.update(question_like: params[:question_like] + 1)
       render json: @question
     else
       render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
