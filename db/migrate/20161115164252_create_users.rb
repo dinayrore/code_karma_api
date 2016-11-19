@@ -8,7 +8,6 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :github_token
       t.json :github_oauth_data
       t.string :email
-      t.string :nickname
 
       t.timestamps
     end
