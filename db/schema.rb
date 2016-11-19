@@ -16,8 +16,10 @@ ActiveRecord::Schema.define(version: 20161118142306) do
   enable_extension "plpgsql"
 
   create_table "clients", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "organization_name"
+    t.string   "organization_site"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "developer_projects", force: :cascade do |t|
@@ -38,7 +40,7 @@ ActiveRecord::Schema.define(version: 20161118142306) do
   end
 
   create_table "karma_comments", force: :cascade do |t|
-    t.string   "karma_comment"
+    t.string   "karma_comment",                 null: false
     t.integer  "comment_like",      default: 0
     t.integer  "karma_question_id"
     t.integer  "developer_id"
@@ -49,27 +51,7 @@ ActiveRecord::Schema.define(version: 20161118142306) do
   end
 
   create_table "karma_questions", force: :cascade do |t|
-    t.string   "karma_question"
-    t.integer  "question_like",  default: 0
-    t.integer  "developer_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["developer_id"], name: "index_karma_questions_on_developer_id", using: :btree
-  end
-
-  create_table "karma_comments", force: :cascade do |t|
-    t.string   "karma_comment"
-    t.integer  "comment_like"
-    t.integer  "karma_question_id"
-    t.integer  "developer_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.index ["developer_id"], name: "index_karma_comments_on_developer_id", using: :btree
-    t.index ["karma_question_id"], name: "index_karma_comments_on_karma_question_id", using: :btree
-  end
-
-  create_table "karma_questions", force: :cascade do |t|
-    t.string   "karma_question"
+    t.string   "karma_question",             null: false
     t.integer  "question_like",  default: 0
     t.integer  "developer_id"
     t.datetime "created_at",                 null: false
@@ -98,9 +80,11 @@ ActiveRecord::Schema.define(version: 20161118142306) do
     t.string   "github_token"
     t.json     "github_oauth_data"
     t.string   "email"
+    t.string   "nickname"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["account_type"], name: "index_users_on_account_type", using: :btree
+    t.index ["code_karma_token"], name: "index_users_on_code_karma_token", using: :btree
   end
 
   add_foreign_key "developer_projects", "developers"
