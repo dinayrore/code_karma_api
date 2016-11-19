@@ -6,18 +6,18 @@ class DeveloperProjectsController < ApplicationController
       @developer_projects = DeveloperProject.where(developer_id: @current_user.account.id)
       render json: @developer_projects
     else
-      render json: { error: @developer_project.errors.full_messages }, status: 403
+      render json: { error: 'Incorrect User' }, status: 403
     end
   end
 
   def create
     @developer_project = DeveloperProject.new developer_project_params
-    @developer_project.developer_id = @current_user.account_id
+    @developer_project.developer_id = @current_user.account.id
     if @developer_project.developer == @current_user.account
       @developer_project.save
       render json: @developer_project
     else
-      render json: { errors: @developer_project.errors.full_messages }, status: 422
+      render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
     end
   end
 
@@ -27,7 +27,7 @@ class DeveloperProjectsController < ApplicationController
       @developer_project.update developer_project_params
       render json: @developer_project
     else
-      render json: { error: @developer_project.errors.full_messages }, status: 403
+      render json: { error: 'Incorrect User' }, status: 403
     end
   end
 
@@ -37,7 +37,7 @@ class DeveloperProjectsController < ApplicationController
       @developer_project.destroy
       render json: {}, status: :ok
     else
-      render json: { error: @developer_project.errors.full_messages }, status: 403
+      render json: { error: 'Incorrect User' }, status: 403
     end
   end
 
