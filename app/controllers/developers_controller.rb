@@ -6,25 +6,20 @@ class DevelopersController < ApplicationController
       @developer_dashboard_data = @developer.github_oauth_data
       render json: @developer_dashboard_data
     else
-      render json: { error: @developer.errors.full_messages }, status: 403
+      render json: { error: 'Incorrect User' }, status: 403
     end
   end
 
-  def total_karma
-    @developer_question = Developer.find(params[:id])
-    developer_question_likes = @developer_question.karma_question.question_like
-
-    @developer_comment = Developer.find(params[:id])
-    developer_comment_likes = @developer_comment.karma_comment.comment_like
-
-    @developer_points = Developer.find(params[:id])
-    developer_karma_points = @developer_points.karma_points
-
-    developer_karma_points + developer_comment_likes + developer_question_likes = total_karma_points
-    if total_karma_points.save
+  def karma
+    @user = User.find params[:id]
+    @question_likes = KarmaQuestion.find("#{@user.account_id}").question_like
+    @comment_likes = KarmaComment.find("#{@user.account_id}").comment_like
+    @karma_points = Developer.find("#{@user.account_id}").karma_points
+    if @user.account == @current_user.account
+      total_karma_points = @question_likes + @comment_likes + @karma_points
       render json: total_karma_points
     else
-      render json: { error: total_karma_points.errors.full_messages }, status: 400
+      render json: { error: 'Incorrect User' }, status: 403
     end
   end
 end
