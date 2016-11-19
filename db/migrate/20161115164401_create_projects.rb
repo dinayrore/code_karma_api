@@ -6,7 +6,6 @@ class CreateProjects < ActiveRecord::Migration[5.0]
       t.string :brief_description, null: false
       t.string :description, null: false
       t.string :github_repo_url, null: false
-      t.string :active_site_url, null: false
       t.string :fix_type
       t.boolean :fulfilled, default: false
       t.references :client, index: true, foreign_key: true
