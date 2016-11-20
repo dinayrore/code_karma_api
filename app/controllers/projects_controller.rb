@@ -1,72 +1,90 @@
 # Index, Show, Post, Edit, Delete
 class ProjectsController < ApplicationController
+  include ProjectsHelper
+
   def index
-    @user = @current_user
-    if @user.account_type == 'Developer'
-      @projects = Project.all
-      render :index
+    set_current_user
+    if current_developer
+      display_all_projects
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
   def show
-    @project = Project.find params[:id]
-    if @project.client == @current_user.account
-      @client_projects = Project.where(client_id: @current_user.account.id)
-      render json: @client_projects
+    find_project_by_id
+    if project_owner_client
+      show_client_projects
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
   def create
-    @project = Project.new project_params
-    @project.client_id = @current_user.account.id
-    if @project.client == @current_user.account
-      @project.save
-      render :show
+    new_project
+    if project_owner_client
+      save_project
     else
-      render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
+      wrong_syntax_error
     end
   end
 
   def update
-    @project = Project.find params[:id]
-    if @project.client == @current_user.account
-      @project.update project_params
-      render :show
+    find_project_by_id
+    if project_owner_client
+      edit_project
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
   def destroy
-    @project = Project.find params[:id]
-    if @project.client == @current_user.account
-      @project.destroy
-      render json: {}, status: :ok
+    find_project_by_id
+    if project_owner_client
+      delete_project
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
   def fork
-    @project = Project.find params[:id]
-    @developer = User.find_by(id: @current_user.id)
-    if @developer.account_type == 'Developer'
-      url = @project.github_repo_url
+    find_project_by_id
+    set_current_user
+    if current_developer
+      generate_fork_api
+      fork_request_github
+    else
+      wrong_syntax_error
+    end
+  end
+
+  def pull_request
+    @developer_project = DeveloperProject.find params[:id]
+    set_current_user
+    if current_developer
+      url = @developer_project.project.github_repo_url
       owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*)\/(\w*)/).first
       owner = owner_repo_array[0]
       repo = owner_repo_array[1]
-      github_api = "https://api.github.com/repos/#{owner}/#{repo}/forks"
-      e = HTTParty.post(github_api,
+      # pull_github_api = "https://api.github.com/repos/#{owner}/#{repo}/pulls"
+      pull_github_api = "https://api.github.com/repos/kteich88/Practice-Rspec/pulls"
+      pull_title = "Kristine you should totally accept this Amazing Pull Request."
+      head_branch = "master"
+      base_branch = "new_test"
+      pull_body = "Like seriously plz accept it."
+
+      HTTParty.post(pull_github_api,
       :headers => { 'Authorization' => "token #{@developer.github_token}",
                     'Content-Type' => 'application/json',
-                    'User-Agent' => "Awesome-Octocat-App" }
+                    'User-Agent' => 'Code-Karma-API'},
+
+      :body =>    { 'title' => "#{pull_title}",
+                    'base' => "#{base_branch}",
+                    'head' => "#{head_branch}",
+                    'body' => "#{pull_body}"}
       )
     else
-      render json: { error: 'Semantically Erroneous Instructions' }, status: 422
+      wrong_syntax_error
     end
   end
 
