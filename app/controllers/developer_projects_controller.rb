@@ -1,43 +1,40 @@
 # Show, Create, Update, Delete
 class DeveloperProjectsController < ApplicationController
+  include DeveloperProjectsHelper
+
   def show
-    @developer_project = DeveloperProject.find params[:id]
-    if @developer_project.developer == @current_user.account
-      @developer_projects = DeveloperProject.where(developer_id: @current_user.account.id)
-      render json: @developer_projects
+    find_dev_project_by_id
+    if authorized
+      show_dev_projects
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
   def create
-    @developer_project = DeveloperProject.new developer_project_params
-    @developer_project.developer_id = @current_user.account.id
-    if @developer_project.developer == @current_user.account
-      @developer_project.save
-      render json: @developer_project
+    new_dev_project
+    if authorized
+      save_dev_project
     else
-      render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
+      wrong_syntax_error
     end
   end
 
   def update
-    @developer_project = DeveloperProject.find params[:id]
-    if @developer_project.developer == @current_user.account
-      @developer_project.update developer_project_params
-      render json: @developer_project
+    find_dev_project_by_id
+    if authorized
+      edit_dev_project
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
   def destroy
-    @developer_project = DeveloperProject.find params[:id]
-    if @developer_project.developer == @current_user.account
-      @developer_project.destroy
-      render json: {}, status: :ok
+    find_dev_project_by_id
+    if authorized
+      delete_dev_project
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
