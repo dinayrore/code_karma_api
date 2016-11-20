@@ -23,8 +23,8 @@ class KarmaQuestionsController < ApplicationController
 
   def like
     @question = KarmaQuestion.find params[:id]
-    if @comment.developer.user.account_type == 'Developer'
-      @question.update(question_like: params[:question_like] + 1)
+    if @question.developer.user.account_type == 'Developer'
+      @question.update(question_like: params[:question_like].to_i + 1)
       render json: @question
     else
       render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
