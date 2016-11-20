@@ -15,6 +15,7 @@ class KarmaCommentsController < ApplicationController
     @comment = KarmaComment.new comment_params
     @comment.developer_id = @current_user.account_id
     if @comment.developer == @current_user.account
+      binding.pry
       @comment.save
       render json: @comment
     else
@@ -25,7 +26,7 @@ class KarmaCommentsController < ApplicationController
   def update
     @comment = KarmaComment.find params[:id]
     if @comment.developer == @current_user.account
-      @comment.update comment_params
+      @comment.update(karma_comment: params[:karma_comment])
       render json: @comment
     else
       render json: { error: 'Incorrect User' }, status: 403
