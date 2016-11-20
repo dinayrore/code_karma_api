@@ -11,6 +11,6 @@ Rails.application.routes.draw do
   resources :projects, only: [:index, :show, :create, :update, :destroy]
   resources :clients, only: [:show]
   resources :developers, only: [:show]
-  resources :karma_questions, only: [:index, :create, :update, :destroy]
-  resources :karma_comments, only: [:create, :update, :destroy]
+  resources :karma_questions, only: [:create, :update, :destroy]
+  resources :karma_comments, only: [:index, :create, :update, :destroy]
 end
