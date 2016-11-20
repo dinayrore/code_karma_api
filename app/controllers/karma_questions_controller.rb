@@ -1,16 +1,5 @@
 # Community Feed Questions Controller
 class KarmaQuestionsController < ApplicationController
-  def index
-    @user = @current_user
-    if @user.account_type == 'Developer'
-      @questions = KarmaQuestion.all
-      @comments = KarmaComment.all
-      render :index
-    else
-      render json: { error: 'Incorrect User' }, status: 403
-    end
-  end
-
   def create
     @question = KarmaQuestion.new question_params
     @question.developer_id = @current_user.account_id
