@@ -1,5 +1,16 @@
 # Community Feed Comments Controller
 class KarmaCommentsController < ApplicationController
+  def index
+    @user = @current_user
+    if @user.account_type == 'Developer'
+      @questions = KarmaQuestion.all
+      @comments = KarmaComment.all
+      render :index
+    else
+      render json: { error: 'Incorrect User' }, status: 403
+    end
+  end
+
   def create
     @comment = KarmaComment.new comment_params
     @comment.developer_id = @current_user.account_id
