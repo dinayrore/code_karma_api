@@ -15,7 +15,6 @@ class KarmaCommentsController < ApplicationController
     @comment = KarmaComment.new comment_params
     @comment.developer_id = @current_user.account_id
     if @comment.developer == @current_user.account
-      binding.pry
       @comment.save
       render json: @comment
     else
@@ -46,7 +45,7 @@ class KarmaCommentsController < ApplicationController
   def like
     @comment = KarmaComment.find params[:id]
     if @comment.developer.user.account_type == 'Developer'
-      @comment.update(comment_like: params[:comment_like] + 1)
+      @comment.update(comment_like: params[:comment_like].to_i + 1)
       render json: @comment
     else
       render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
