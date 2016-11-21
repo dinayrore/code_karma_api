@@ -26,6 +26,7 @@ class DevelopersController < ApplicationController
     aggregate_karma_variables
     if is_developer?
       calculate_total_karma
+      update_karma_points
     else
       wrong_user_error
     end

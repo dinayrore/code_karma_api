@@ -20,12 +20,18 @@ module DevelopersHelper
   def aggregate_karma_variables
     @question_likes = KarmaQuestion.find("#{@user.account_id}").question_like
     @comment_likes = KarmaComment.find("#{@user.account_id}").comment_like
-    @karma_points = Developer.find("#{@user.account_id}").karma_points
   end
 
   def calculate_total_karma
-    total_karma_points = @question_likes + @comment_likes
-    render json: total_karma_points
+    @total_karma_points = @question_likes + @comment_likes
+  end
+
+  def update_karma_points
+    @developer = Developer.find(@user.account_id)
+    @developer.karma_points = @total_karma_points
+    @developer_points = @total_karma_points
+    @developer.save
+    render json: @developer_points
   end
 
   def edit_developer_skills
