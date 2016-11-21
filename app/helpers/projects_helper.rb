@@ -73,4 +73,11 @@ module ProjectsHelper
   def wrong_syntax_error
     render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
   end
+
+  private
+
+  def project_params
+    params.permit(:title, :brief_description, :description, :github_repo_url,
+                  :fulfilled, :fix_type)
+  end
 end
