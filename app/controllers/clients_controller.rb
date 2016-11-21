@@ -5,7 +5,7 @@ class ClientsController < ApplicationController
     if @user.account_type == 'Client'
       @client = @user.account
       @client_dashboard_data = @user.github_oauth_data
-      render json: @client_dashboard_data
+      render 'show.json.jbuilder'
     else
       render json: { error: 'Incorrect User' }, status: 403
     end
