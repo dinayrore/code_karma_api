@@ -1,10 +1,10 @@
 # OAuth through GitHub to create user/developers
 class DevelopersController < ApplicationController
   def show
-    @developer = User.find params[:id]
-    if @developer.account_type == 'Developer'
-      @developer_dashboard_data = @developer.github_oauth_data
-      render json: @developer_dashboard_data
+    @user = User.find params[:id]
+    if @user.account_type == 'Developer'
+      @developer = @user.account
+      render :show
     else
       render json: { error: 'Incorrect User' }, status: 403
     end
