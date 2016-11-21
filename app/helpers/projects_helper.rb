@@ -48,7 +48,7 @@ module ProjectsHelper
 
   def generate_fork_api_url
     url = @project.github_repo_url
-    owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*)\/(\w*)/).first
+    owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
     owner = owner_repo_array[0]
     repo = owner_repo_array[1]
     @github_fork_api_url = "https://api.github.com/repos/#{owner}/#{repo}/forks"

@@ -55,7 +55,7 @@ module DeveloperProjectsHelper
 
   def calculate_branch_request_url
     url = @developer_project.project_id.github_repo_url
-    owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*)\/(\w*)/).first
+    owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
     owner = owner_repo_array[0]
     repo = owner_repo_array[1]
     @branch_github_api_url = "https://api.github.com/#{owner}/#{repo}/branches"
