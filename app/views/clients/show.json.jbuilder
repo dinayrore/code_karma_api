@@ -1,2 +1,5 @@
-json.(@user, :github_oauth_data)
-json.(@client, :organization_name, :organization_site)
+json.user do
+  json.data @user.github_oauth_data
+end
+
+json.call(@client, :organization_name, :organization_site)
