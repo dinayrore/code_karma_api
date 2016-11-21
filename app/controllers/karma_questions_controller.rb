@@ -21,21 +21,10 @@ class KarmaQuestionsController < ApplicationController
     end
   end
 
-  def destroy
-    @question = KarmaQuestion.find params[:id]
-    if @question.developer == @current_user.account
-      @question.destroy
-      render json: {}, status: :ok
-    else
-      render json: { error: 'Incorrect User' }, status: 403
-    end
-  end
-
-
   def like
     @question = KarmaQuestion.find params[:id]
-    if @comment.developer.user.account_type == 'Developer'
-      @question.update(question_like: params[:question_like] + 1)
+    if @question.developer.user.account_type == 'Developer'
+      @question.update(question_like: params[:question_like].to_i + 1)
       render json: @question
     else
       render json: { errors: 'Semantically Erroneous Instructions' }, status: 422

@@ -9,8 +9,8 @@ Rails.application.routes.draw do
 
   resources :developer_projects, only: [:show, :create, :update, :destroy]
   resources :projects, only: [:index, :show, :create, :update, :destroy]
-  resources :clients, only: [:show]
-  resources :developers, only: [:show]
+  resources :clients, only: [:show, :update]
+  resources :developers, only: [:show, :update]
   resources :karma_questions, only: [:create, :update, :destroy]
   resources :karma_comments, only: [:index, :create, :update, :destroy]
 end
