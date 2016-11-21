@@ -13,12 +13,22 @@ module DeveloperProjectsHelper
     render json: @developer_projects
   end
 
+  def run_create_dev_project
+    new_dev_project
+    if authorized_developer?
+      save_dev_project
+    else
+      wrong_syntax_error
+    end
+  end
+
   def new_dev_project
     @developer_project = DeveloperProject.new developer_project_params
     @developer_project.developer_id = @current_user.account.id
   end
 
   def save_dev_project
+    binding.pry
     @developer_project.save
     render json: @developer_project
   end
@@ -95,5 +105,11 @@ module DeveloperProjectsHelper
 
   def wrong_syntax_error
     render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
+  end
+
+  private
+
+  def developer_project_params
+    params.permit(:percentage_complete, :est_completion_date, :project_id)
   end
 end
