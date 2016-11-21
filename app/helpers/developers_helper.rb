@@ -45,7 +45,7 @@ module DevelopersHelper
 
   private
 
-  def developer_project_params
-    params.permit(:percentage_complete, :est_completion_date, :project_id)
+  def developer_params
+    params.permit(:skills)
   end
 end
