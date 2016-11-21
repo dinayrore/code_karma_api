@@ -4,6 +4,10 @@ module DevelopersHelper
     @user = User.find params[:id]
   end
 
+  def find_developer_with_user
+    @developer = @user.account
+  end
+
   def is_developer?
     @user.account_type == 'Developer'
   end
@@ -20,8 +24,13 @@ module DevelopersHelper
   end
 
   def calculate_total_karma
-    total_karma_points = @question_likes + @comment_likes + @karma_points
+    total_karma_points = @question_likes + @comment_likes
     render json: total_karma_points
+  end
+
+  def edit_developer_skills
+    @developer.update developer_params
+    render json: @developer
   end
 
   def wrong_user_error
