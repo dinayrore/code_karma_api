@@ -42,4 +42,10 @@ module DevelopersHelper
   def wrong_user_error
     render json: { error: 'Incorrect User' }, status: 403
   end
+
+  private
+
+  def developer_project_params
+    params.permit(:percentage_complete, :est_completion_date, :project_id)
+  end
 end
