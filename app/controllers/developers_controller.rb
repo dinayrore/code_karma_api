@@ -7,7 +7,7 @@ class DevelopersController < ApplicationController
     if is_developer?
       display_developer_oauth_data
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
