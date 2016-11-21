@@ -12,11 +12,10 @@ class DevelopersController < ApplicationController
   end
 
   def update
-    @user = User.find params[:id]
-    @developer = @user.account
-    if @user.account_type == 'Developer'
-      @developer.update developer_params
-      render json: @developer
+    find_user_by_id
+    find_developer_with_user
+    if is_developer?
+      edit_developer_skills
     else
       wrong_user_error
     end
