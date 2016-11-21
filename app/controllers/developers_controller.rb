@@ -1,25 +1,23 @@
 # OAuth through GitHub to create user/developers
 class DevelopersController < ApplicationController
+  include DevelopersHelper
+
   def show
-    @developer = User.find params[:id]
-    if @developer.account_type == 'Developer'
-      @developer_dashboard_data = @developer.github_oauth_data
-      render json: @developer_dashboard_data
+    find_user_by_id
+    if is_developer?
+      display_developer_oauth_data
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 
   def karma
-    @user = User.find params[:id]
-    @question_likes = KarmaQuestion.find("#{@user.account_id}").question_like
-    @comment_likes = KarmaComment.find("#{@user.account_id}").comment_like
-    @karma_points = Developer.find("#{@user.account_id}").karma_points
-    if @user.account == @current_user.account
-      total_karma_points = @question_likes + @comment_likes + @karma_points
-      render json: total_karma_points
+    find_user_by_id
+    aggregate_karma_variables
+    if is_developer?
+      calculate_total_karma
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      wrong_user_error
     end
   end
 end
