@@ -53,7 +53,9 @@ class ProjectsController < ApplicationController
     set_current_user
     if is_developer?
       generate_fork_api_url
-      fork_request_github
+      if fork_request_github
+        run_create_dev_project
+      end
     else
       wrong_syntax_error
     end
