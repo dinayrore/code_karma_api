@@ -38,10 +38,4 @@ class DevelopersController < ApplicationController
     @user_info = User.all
     render :rank
   end
-
-  private
-
-  def developer_params
-    params.permit(:skills)
-  end
 end
