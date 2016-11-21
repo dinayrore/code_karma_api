@@ -4,7 +4,7 @@ class DeveloperProjectsController < ApplicationController
 
   def show
     find_dev_project_by_id
-    if authorized
+    if authorized_developer?
       show_dev_projects
     else
       wrong_user_error
@@ -13,7 +13,7 @@ class DeveloperProjectsController < ApplicationController
 
   def create
     new_dev_project
-    if authorized
+    if authorized_developer?
       save_dev_project
     else
       wrong_syntax_error
@@ -22,7 +22,7 @@ class DeveloperProjectsController < ApplicationController
 
   def update
     find_dev_project_by_id
-    if authorized
+    if authorized_developer?
       edit_dev_project
     else
       wrong_user_error
@@ -31,11 +31,18 @@ class DeveloperProjectsController < ApplicationController
 
   def destroy
     find_dev_project_by_id
-    if authorized
+    if authorized_developer?
       delete_dev_project
     else
       wrong_user_error
     end
+  end
+
+  def pull_request
+    # create
+    # set_current_user
+    # get_github_project_branches
+    post_pull_request
   end
 
   private
