@@ -4,7 +4,7 @@ class ClientsController < ApplicationController
     @user = User.find params[:id]
     if @user.account_type == 'Client'
       @client = @user.account
-      render 'ClientsController/show.json.jbuilder'
+      render 'show.json.jbuilder'
     else
       render json: { error: 'Incorrect User' }, status: 403
     end
