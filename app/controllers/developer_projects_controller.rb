@@ -44,10 +44,4 @@ class DeveloperProjectsController < ApplicationController
     # get_github_project_branches
     post_pull_request
   end
-
-  private
-
-  def developer_project_params
-    params.permit(:percentage_complete, :est_completion_date, :project_id)
-  end
 end
