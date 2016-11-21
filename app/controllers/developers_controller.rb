@@ -33,6 +33,12 @@ class DevelopersController < ApplicationController
     end
   end
 
+  def rank
+    @rank = Developer.order('karma_points DESC')
+    @user_info = User.all
+    render :rank
+  end
+
   private
 
   def developer_params
