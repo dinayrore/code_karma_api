@@ -14,7 +14,7 @@ module DevelopersHelper
 
   def display_developer
     @developer_dashboard_data = @user.github_oauth_data
-    render json: @developer_dashboard_data
+    render 'show.json.jbuilder'
   end
 
   def aggregate_karma_variables
