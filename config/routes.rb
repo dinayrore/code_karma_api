@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post '/developer_projects/:id', to: 'developer_projects#pull_request'
   put '/karma_question/:id', to: 'karma_questions#like'
   put '/karma_comment/:id', to: 'karma_comments#like'
-
+  get '/karma_points/rank', to: 'developers#rank'
   resources :developer_projects, only: [:show, :create, :update, :destroy]
   resources :projects, only: [:index, :show, :create, :update, :destroy]
   resources :clients, only: [:show, :update]

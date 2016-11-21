@@ -5,7 +5,7 @@ class KarmaCommentsController < ApplicationController
     if @user.account_type == 'Developer'
       @questions = KarmaQuestion.all
       @comments = KarmaComment.all
-      render :index
+      render 'index.json.jbuilder'
     else
       render json: { error: 'Incorrect User' }, status: 403
     end

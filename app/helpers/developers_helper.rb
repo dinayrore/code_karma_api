@@ -12,9 +12,9 @@ module DevelopersHelper
     @user.account_type == 'Developer'
   end
 
-  def display_developer_oauth_data
-    @developer_oauth_data = @user.github_oauth_data
-    render json: @developer_oauth_data
+  def display_developer
+    @developer_dashboard_data = @user.github_oauth_data
+    render json: @developer_dashboard_data
   end
 
   def aggregate_karma_variables

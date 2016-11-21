@@ -5,7 +5,8 @@ class DevelopersController < ApplicationController
   def show
     find_user_by_id
     if is_developer?
-      display_developer_oauth_data
+      find_developer_with_user
+      display_developer
     else
       wrong_user_error
     end
@@ -30,6 +31,12 @@ class DevelopersController < ApplicationController
     else
       wrong_user_error
     end
+  end
+
+  def rank
+    @rank = Developer.order('karma_points DESC')
+    @user_info = User.all
+    render :rank
   end
 
   private

@@ -30,5 +30,4 @@ module SessionsHelper
     )
     user
   end
-
 end
