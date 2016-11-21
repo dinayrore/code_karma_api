@@ -25,10 +25,10 @@ module DeveloperProjectsHelper
   def new_dev_project
     @developer_project = DeveloperProject.new developer_project_params
     @developer_project.developer_id = @current_user.account.id
+    @developer_project.project_id = params[:id]
   end
 
   def save_dev_project
-    binding.pry
     @developer_project.save
     render json: @developer_project
   end
