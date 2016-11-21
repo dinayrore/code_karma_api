@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/auth/github/callback', to: 'sessions#create'
   get '/developers/karma/:id', to: 'developers#karma'
   post '/projects/:id', to: 'projects#fork'
+  post '/developer_projects/:id', to: 'developer_projects#pull_request'
   put '/karma_question/:id', to: 'karma_questions#like'
   put '/karma_comment/:id', to: 'karma_comments#like'
 
