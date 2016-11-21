@@ -8,7 +8,7 @@ module ProjectsHelper
     @user = User.find_by(id: @current_user.id)
   end
 
-  def current_developer
+  def is_developer?
     @user.account_type == 'Developer'
   end
 
@@ -46,16 +46,16 @@ module ProjectsHelper
     render json: {}, status: :ok
   end
 
-  def generate_fork_api
+  def generate_fork_api_url
     url = @project.github_repo_url
     owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*)\/(\w*)/).first
     owner = owner_repo_array[0]
     repo = owner_repo_array[1]
-    @github_fork_api = "https://api.github.com/repos/#{owner}/#{repo}/forks"
+    @github_fork_api_url = "https://api.github.com/repos/#{owner}/#{repo}/forks"
   end
 
   def fork_request_github
-    HTTParty.post(@github_fork_api,
+    HTTParty.post(@github_fork_api_url,
       :headers => { 'Authorization' => "token #{@user.github_token}",
                     'Content-Type' => 'application/json',
                     'User-Agent' => 'Code-Karma-API' }
