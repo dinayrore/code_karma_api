@@ -18,7 +18,7 @@ module ProjectsHelper
 
   def display_all_projects
     @projects = Project.all
-    render :index
+    render 'index.json.jbuilder'
   end
 
   def show_client_projects
@@ -33,12 +33,12 @@ module ProjectsHelper
 
   def save_project
     @project.save
-    render :show
+    render 'show.json.jbuilder'
   end
 
   def edit_project
     @project.update project_params
-    render :show
+    render 'show.json.jbuilder'
   end
 
   def delete_project
