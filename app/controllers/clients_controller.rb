@@ -1,10 +1,10 @@
 # OAuth through GitHub to create user/clients
 class ClientsController < ApplicationController
   def show
-    @client = User.find params[:id]
-    if @client.account_type == 'Client'
-      @client_dashboard_data = @client.github_oauth_data
-      render json: @client_dashboard_data
+    @user = User.find params[:id]
+    if @user.account_type == 'Client'
+      @client = @user.account
+      render :show
     else
       render json: { error: 'Incorrect User' }, status: 403
     end
@@ -12,8 +12,8 @@ class ClientsController < ApplicationController
 
   def update
     @user = User.find params[:id]
-    @client = @user.account
     if @user.account_type == 'Client'
+      @client = @user.account
       @client.update client_params
       render json: @client
     else
