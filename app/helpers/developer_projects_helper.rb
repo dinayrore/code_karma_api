@@ -54,19 +54,22 @@ module DeveloperProjectsHelper
   end
 
   def calculate_branch_request_url
-    url = @developer_project.project_id.github_repo_url
+    url = @developer_project.project.github_repo_url
     owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
     owner = owner_repo_array[0]
     repo = owner_repo_array[1]
-    @branch_github_api_url = "https://api.github.com/#{owner}/#{repo}/branches"
+    @branch_github_api_url = "https://api.github.com/repos/#{owner}/#{repo}/branches"
   end
 
   def branch_request_github
-    HTTParty.get(@branch_github_api_url,
+    @branch_response = HTTParty.get(@branch_github_api_url,
       :headers => { 'Authorization' => "token #{@user.github_token}",
                     'Content-Type' => 'application/json',
-                    'User-Agent' => 'Code-Karma-API' }
+                    'User-Agent' => 'Code-Karma-API',
+                    'protected' => 'false' }
     )
+    @branches = []
+    render 'branches.json.jbuilder'
   end
 
   def post_pull_request
