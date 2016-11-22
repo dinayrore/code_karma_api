@@ -96,7 +96,6 @@ module DeveloperProjectsHelper
                     'head' => "#{head_branch}",
                     'body' => "#{pull_body}"}
       )
-      binding.pry
     else
       wrong_syntax_error
     end
