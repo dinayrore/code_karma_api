@@ -6,11 +6,11 @@ Rails.application.routes.draw do
   post '/projects/:id', to: 'projects#fork'
 
   get '/developers/karma/:id', to: 'developers#karma'
+  get '/developers/rank', to: 'developers#rank'
 
   get '/developer_projects/:id', to: 'developer_projects#github_branches'
   post '/developer_projects/:id', to: 'developer_projects#pull_request'
 
-  get '/karma_points/rank', to: 'developers#rank'
   put '/karma_question/:id', to: 'karma_questions#like'
   put '/karma_comment/:id', to: 'karma_comments#like'
 
