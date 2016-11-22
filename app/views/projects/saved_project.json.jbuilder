@@ -7,5 +7,3 @@ end
 @language_response.each do |language|
   json.language_percent @language_percent << { language.first => (language.second * 100) / @sum}
 end
-
-binding.pry
