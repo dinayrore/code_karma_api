@@ -88,13 +88,9 @@ module DeveloperProjectsHelper
   end
 
   def octokit_pull_request
-    p "#{@owner}/#{@repo}", "#{@base_branch}", "#{@head_branch}",
-    "#{@pull_title}", "#{@pull_body}"
-
     client = Octokit::Client.new(:access_token => "#{@user.github_token}")
     client.create_pull_request("#{@owner}/#{@repo}", "#{@base_branch}", "#{@head_branch}",
     "#{@pull_title}", "#{@pull_body}")
-    binding.pry
   end
 
   def post_pull_request
