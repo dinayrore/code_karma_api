@@ -39,6 +39,8 @@ class DevelopersController < ApplicationController
     render :rank
   end
 
+
+
   private
 
   def developer_params

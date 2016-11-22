@@ -38,6 +38,11 @@ module DevelopersHelper
     render json: @developer
   end
 
+  def rank_placement_count
+    @developer_count = Developer.all.count
+    @developer_count
+  end
+
   def wrong_user_error
     render json: { error: 'Incorrect User' }, status: 403
   end
