@@ -1,4 +1,5 @@
 json.array! @questions do |question|
+  json.question_id question.id
   json.question question.karma_question
   json.likes question.question_like
   json.created question.created_at
