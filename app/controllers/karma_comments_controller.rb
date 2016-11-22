@@ -1,59 +1,50 @@
 # Community Feed Comments Controller
 class KarmaCommentsController < ApplicationController
+  include KarmaCommentsHelper
+
   def index
-    @user = @current_user
-    if @user.account_type == 'Developer'
-      @questions = KarmaQuestion.all
-      render 'index.json.jbuilder'
+    verify_user
+    if verify_account_type
+      show_all_questions_and_comments
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      user_error
     end
   end
 
   def create
-    @comment = KarmaComment.new comment_params
-    @comment.developer_id = @current_user.account_id
-    if @comment.developer == @current_user.account
-      @comment.save
-      render json: @comment
+    create_new_comment
+    set_account
+    if verify_account
+      save_comment
     else
-      render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
+      syntax_error
     end
   end
 
   def update
-    @comment = KarmaComment.find params[:id]
-    if @comment.developer == @current_user.account
-      @comment.update(karma_comment: params[:karma_comment])
-      render json: @comment
+    find_comment
+    if verify_account
+      update_comment
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      user_error
     end
   end
 
   def destroy
-    @comment = KarmaComment.find params[:id]
-    if @comment.developer == @current_user.account
-      @comment.destroy
-      render json: {}, status: :ok
+    find_comment
+    if verify_account
+      destroy_comment
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      user_error
     end
   end
 
   def like
-    @comment = KarmaComment.find params[:id]
-    if @comment.developer.user.account_type == 'Developer'
-      @comment.update(comment_like: params[:comment_like].to_i + 1)
-      render json: @comment
+    find_comment
+    if verify_account
+      increment_like
     else
-      render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
+      user_error
     end
-  end
-
-  private
-
-  def comment_params
-    params.permit(:karma_comment, :karma_question_id)
   end
 end
