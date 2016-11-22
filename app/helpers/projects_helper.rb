@@ -33,6 +33,7 @@ module ProjectsHelper
 
   def save_project
     @project.save
+    binding.pry
     render 'saved_project.json.jbuilder'
   end
 
@@ -86,8 +87,23 @@ module ProjectsHelper
                     'Content-Type' => 'application/json',
                     'User-Agent' => 'Code-Karma-API' }
     )
+    calculate_sum
+    create_language_value
+  end
+
+  def calculate_sum
     @sum = 0
+    @language_response.each do |language|
+      @sum += language.second
+    end
+  end
+
+  def create_language_value
     @language_percent = []
+    @language_response.each do |language|
+      @language_percent << { language.first => (language.second * 100) / @sum}
+    end
+    @project.languages = JSON.parse(@language_percent.to_json)
   end
 
   def wrong_user_error
