@@ -34,8 +34,9 @@ class DevelopersController < ApplicationController
   end
 
   def rank
-    @rank = Developer.order('karma_points DESC')
-    @user_info = User.all
-    render :rank
+    leaderboard_order_by_descending
+    leaderboard_total_developer_count
+    render_rank
   end
+
 end
