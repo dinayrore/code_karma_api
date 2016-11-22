@@ -1,30 +1,25 @@
-# OAuth through GitHub to create user/clients
+# OAuth through GitHub to create & update user/clients
 class ClientsController < ApplicationController
+  include ClientsHelper
+
   def show
-    @user = User.find params[:id]
-    if @user.account_type == 'Client'
-      @client = @user.account
-      @client_dashboard_data = @user.github_oauth_data
-      render 'show.json.jbuilder'
+    find_user
+    if confirm_account_type
+      identify_client
+      show_client_user_data
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      user_error
     end
   end
 
   def update
-    @user = User.find params[:id]
-    if @user.account_type == 'Client'
-      @client = @user.account
-      @client.update client_params
-      render json: @client
+    find_user
+    if confirm_account_type
+      identify_client
+      edit_client_params
+      show_client_user_data
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      user_error
     end
-  end
-
-  private
-
-  def client_params
-    params.permit(:organization_name, :organization_site)
   end
 end
