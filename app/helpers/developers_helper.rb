@@ -13,6 +13,7 @@ module DevelopersHelper
   end
 
   def display_developer
+    @developer_dashboard_data = @user.github_oauth_data
     render 'show.json.jbuilder'
   end
 
@@ -45,5 +46,11 @@ module DevelopersHelper
 
   def wrong_user_error
     render json: { error: 'Incorrect User' }, status: 403
+  end
+
+  private
+
+  def developer_params
+    params.permit(:skills)
   end
 end

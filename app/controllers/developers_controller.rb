@@ -34,16 +34,9 @@ class DevelopersController < ApplicationController
   end
 
   def rank
-    @rank = Developer.order('karma_points DESC')
-    @user_info = User.all
+    @top_rank = Developer.order('karma_points DESC')
+    @count = Developer.count
     render :rank
   end
 
-
-
-  private
-
-  def developer_params
-    params.permit(:skills)
-  end
 end
