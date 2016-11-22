@@ -1,3 +1,7 @@
-@branch_response.each do |branch|
-  json.branches_array @branches << {name: branch["name"]}
+@client_branch_response.each do |branch|
+  json.base_branches @base_branches << {name: branch["name"]}
+end
+
+@developer_branch_response.each do |branch|
+  json.head_branches @head_branches << {name: branch["name"]}
 end
