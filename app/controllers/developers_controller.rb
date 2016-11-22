@@ -24,8 +24,10 @@ class DevelopersController < ApplicationController
 
   def karma
     find_user_by_id
-    aggregate_karma_variables
     if is_developer?
+      aggregate_karma_likes
+      aggregate_karma_questions
+      aggregate_karma_comments
       calculate_total_karma
       update_karma_points
     else
@@ -38,5 +40,4 @@ class DevelopersController < ApplicationController
     leaderboard_total_developer_count
     render_rank
   end
-
 end
