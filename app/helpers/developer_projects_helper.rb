@@ -4,13 +4,21 @@ module DeveloperProjectsHelper
     @user = @current_user
   end
 
+  def find_developer_by_user_id
+    @user = User.find params[:id]
+  end
+
+  def verify_account_type
+    @user.account_type == 'Developer'
+  end
+
   def authorized_developer?
     @developer_project.developer == @current_user.account
   end
 
-  def show_dev_projects
-    @developer_projects = DeveloperProject.where(developer_id: @current_user.account.id)
-    render json: @developer_projects
+  def show_my_projects
+    @developer_projects = DeveloperProject.all
+    render 'show.json.jbuilder'
   end
 
   def run_create_dev_project
