@@ -14,7 +14,7 @@ class KarmaCommentsController < ApplicationController
   def create
     create_new_comment
     set_account
-    if verify_account
+    if developer?
       save_comment
     else
       syntax_error
@@ -23,7 +23,7 @@ class KarmaCommentsController < ApplicationController
 
   def update
     find_comment
-    if verify_account
+    if developer?
       update_comment
     else
       user_error
@@ -32,7 +32,7 @@ class KarmaCommentsController < ApplicationController
 
   def destroy
     find_comment
-    if verify_account
+    if developer?
       destroy_comment
     else
       user_error
@@ -41,7 +41,7 @@ class KarmaCommentsController < ApplicationController
 
   def like
     find_comment
-    if verify_account
+    if developer?
       increment_like
     else
       user_error

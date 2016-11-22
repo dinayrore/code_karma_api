@@ -33,7 +33,6 @@ module ProjectsHelper
 
   def save_project
     @project.save
-    binding.pry
     render 'saved_project.json.jbuilder'
   end
 
@@ -119,6 +118,6 @@ module ProjectsHelper
 
   def project_params
     params.permit(:title, :brief_description, :description, :github_repo_url,
-                  :active_site_url, :fulfilled, :fix_type)
+                  :active_site_url, :fulfilled, :fix_type, :languages)
   end
 end
