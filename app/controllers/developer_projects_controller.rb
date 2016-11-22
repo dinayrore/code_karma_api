@@ -38,10 +38,13 @@ class DeveloperProjectsController < ApplicationController
     end
   end
 
+  def github_branches
+    set_current_user
+    get_github_project_branches
+  end
+
   def pull_request
-    # create
-    # set_current_user
-    # get_github_project_branches
-    post_pull_request
+    set_current_user
+    # post_pull_request
   end
 end
