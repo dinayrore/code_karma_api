@@ -101,7 +101,8 @@ module ProjectsHelper
   def create_language_value
     @language_percent = []
     @language_response.each do |language|
-      @language_percent << { language.first => (language.second * 100) / @sum}
+      @language_percent << {'language_name' => language.first,
+                            'language_percent' => (language.second * 100) / @sum}
     end
     @project.languages = JSON.parse(@language_percent.to_json)
   end
