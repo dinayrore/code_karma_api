@@ -13,8 +13,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    find_project_by_id
-    if project_owner_client
+    find_client_projects
+    if client?
       show_client_projects
     else
       wrong_user_error

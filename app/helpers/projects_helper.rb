@@ -12,6 +12,10 @@ module ProjectsHelper
     @user.account_type == 'Developer'
   end
 
+  def client?
+    @current_user.account_type == 'Client'
+  end
+
   def project_owner_client
     @project.client == @current_user.account
   end
@@ -21,9 +25,12 @@ module ProjectsHelper
     render 'index.json.jbuilder'
   end
 
+  def find_client_projects
+    @projects = Project.where(client_id: @current_user.account.id)
+  end
+
   def show_client_projects
-    @client_projects = Project.where(client_id: @current_user.account.id)
-    render json: @client_projects
+    render json: @projects
   end
 
   def new_project
