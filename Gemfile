@@ -17,6 +17,7 @@ gem 'omniauth-github'
 gem 'httparty'
 gem 'figaro'
 gem 'rack-cors', '~> 0.4.0'
+gem 'octokit'
 
 group :development, :test do
   gem 'byebug', platform: :mri

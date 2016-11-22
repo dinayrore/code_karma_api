@@ -39,9 +39,27 @@ module DevelopersHelper
     render json: @developer
   end
 
+  def rank_placement_count
+    @developer_count = Developer.all.count
+    @developer_count
+  end
+
   def wrong_user_error
     render json: { error: 'Incorrect User' }, status: 403
   end
+
+  def leaderboard_total_developer_count
+    @count = Developer.count
+  end
+
+  def leaderboard_order_by_descending
+    @top_rank = Developer.order('karma_points DESC')
+  end
+
+  def render_rank
+    render :rank
+  end
+
 
   private
 

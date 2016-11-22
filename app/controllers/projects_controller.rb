@@ -24,6 +24,7 @@ class ProjectsController < ApplicationController
   def create
     new_project
     if project_owner_client
+      get_github_project_languages
       save_project
     else
       wrong_syntax_error

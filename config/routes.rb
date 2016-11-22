@@ -2,12 +2,18 @@ Rails.application.routes.draw do
   root 'users#show'
 
   get '/auth/github/callback', to: 'sessions#create'
-  get '/developers/karma/:id', to: 'developers#karma'
+
   post '/projects/:id', to: 'projects#fork'
+
+  get '/developers/karma/:id', to: 'developers#karma'
+
+  get '/developer_projects/:id', to: 'developer_projects#github_branches'
   post '/developer_projects/:id', to: 'developer_projects#pull_request'
+
+  get '/karma_points/rank', to: 'developers#rank'
   put '/karma_question/:id', to: 'karma_questions#like'
   put '/karma_comment/:id', to: 'karma_comments#like'
-  get '/karma_points/rank', to: 'developers#rank'
+
   resources :developer_projects, only: [:show, :create, :update, :destroy]
   resources :projects, only: [:index, :show, :create, :update, :destroy]
   resources :clients, only: [:show, :update]
