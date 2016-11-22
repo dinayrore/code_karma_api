@@ -1,48 +1,42 @@
 # Included in KarmaQuestionsController
 module KarmaQuestionsHelper
+  def find_question
+    @question = KarmaQuestion.find params[:id]
+  end
 
   def create_new_question
     @question = KarmaQuestion.new question_params
   end
 
-  def confirm_account_id
+  def set_account_id
     @question.developer_id = @current_user.account_id
   end
 
-  def confirm_developer_is_user
+  def developer?
     @question.developer == @current_user.account
+  end
+
+  def account_confirmed
+    @current_user.account_type == @question.developer.user.account_type
   end
 
   def save_question
     @question.save
-  end
-
-  def render_json
-    render json: @question
-  end
-
-  def render_erronious_instruction_error
-    render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
-  end
-
-  def find_a_question
-    @question = KarmaQuestion.find params[:id]
+    render 'show.json.jbuilder'
   end
 
   def update_question
     @question.update question_params
-  end
-
-  def render_incorrect_user_error
-    render json: { error: 'Incorrect User' }, status: 403
-  end
-
-  def confirm_account_type_developer
-    @question.developer.user.account_type == 'Developer'
+    render 'show.json.jbuilder'
   end
 
   def increment_question_like
     @question.update(question_like: params[:question_like].to_i + 1)
+    render json: {}, status: :ok
+  end
+
+  def user_error
+    render json: { error: 'Incorrect User' }, status: 403
   end
 
   private
