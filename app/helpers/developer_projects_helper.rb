@@ -104,39 +104,9 @@ module DeveloperProjectsHelper
     @pull_body = "Like seriously plz accept it."
   end
 
-  def calculate_pull_request_url
-    # @pull_request_url = "https://api.github.com/#{@base_fork}/compare/#{@base_branch}...#{@username}:#{@head_branch}"
-    @pull_request_url = "https://api.github.com/repos/#{@owner}/#{@repo}/pulls"
-    binding.pry
-  end
-
-  def create_fork_pull_request
-    @fork_pull_response = HTTParty.post(@pull_request_url,
-      :headers => { 'Authorization' => "token #{@user.github_token}",
-                    'Content-Type' => 'application/json',
-                    'User-Agent' => 'Code-Karma-API'},
-
-      :body =>    {
-                    # 'base-fork' => "#{@base_fork}",
-                    # 'head-fork' => "#{@username}:#{@repo}",
-                    'title' => "#{@pull_title}",
-                    'base' => "#{@base_branch}",
-                    'head' => "#{@username}:#{@head_branch}",
-                    'body' => "#{@pull_body}"}
-    )
-  end
-
   def octokit_pull_request
-    binding.pry
     client = Octokit::Client.new(:access_token => "#{@user.github_token}")
     client.create_pull_request("#{@owner}/#{@repo}", "#{@base_branch}", "#{@username}:#{@head_branch}",
-    "#{@pull_title}", "#{@pull_body}")
-    binding.pry
-  end
-
-  def octokit_pull_request_backup
-    client = Octokit::Client.new(:access_token => "#{@user.github_token}")
-    client.create_pull_request("#{@owner}/#{@repo}", "#{@base_branch}", "#{@head_branch}",
     "#{@pull_title}", "#{@pull_body}")
   end
 
@@ -154,3 +124,24 @@ module DeveloperProjectsHelper
     params.permit(:percentage_complete, :est_completion_date, :project_id)
   end
 end
+
+# def calculate_pull_request_url
+#   # @pull_request_url = "https://api.github.com/#{@base_fork}/compare/#{@base_branch}...#{@username}:#{@head_branch}"
+#   @pull_request_url = "https://api.github.com/repos/#{@owner}/#{@repo}/pulls"
+# end
+#
+# def create_fork_pull_request
+#   @fork_pull_response = HTTParty.post(@pull_request_url,
+#     :headers => { 'Authorization' => "token #{@user.github_token}",
+#                   'Content-Type' => 'application/json',
+#                   'User-Agent' => 'Code-Karma-API'},
+#
+#     :body =>    {
+#                   # 'base-fork' => "#{@base_fork}",
+#                   # 'head-fork' => "#{@username}:#{@repo}",
+#                   'title' => "#{@pull_title}",
+#                   'base' => "#{@base_branch}",
+#                   'head' => "#{@username}:#{@head_branch}",
+#                   'body' => "#{@pull_body}"}
+#   )
+# end
