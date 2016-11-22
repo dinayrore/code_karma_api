@@ -49,26 +49,46 @@ module DeveloperProjectsHelper
 
   def get_github_project_branches
     find_dev_project_by_id
-    calculate_branch_request_url
-    branch_request_github
+    calculate_client_branch_request_url
+    client_branch_request_github
+    calculate_developer_branch_request_url
+    developer_branch_request_github
   end
 
-  def calculate_branch_request_url
+  def calculate_client_branch_request_url
     url = @developer_project.project.github_repo_url
     owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
     owner = owner_repo_array[0]
     repo = owner_repo_array[1]
-    @branch_github_api_url = "https://api.github.com/repos/#{owner}/#{repo}/branches"
+    @client_branch_github_api_url = "https://api.github.com/repos/#{owner}/#{repo}/branches"
   end
 
-  def branch_request_github
-    @branch_response = HTTParty.get(@branch_github_api_url,
+  def client_branch_request_github
+    @client_branch_response = HTTParty.get(@client_branch_github_api_url,
       :headers => { 'Authorization' => "token #{@user.github_token}",
                     'Content-Type' => 'application/json',
                     'User-Agent' => 'Code-Karma-API',
                     'protected' => 'false' }
     )
-    @branches = []
+    @base_branches = []
+  end
+
+  def calculate_client_branch_request_url
+    url = @developer_project.project.github_repo_url
+    owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
+    owner = owner_repo_array[0]
+    repo = owner_repo_array[1]
+    @developer_branch_github_api_url = "https://api.github.com/repos/#{owner}/#{repo}/branches"
+  end
+
+  def developer_branch_request_github
+    @developer_branch_response = HTTParty.get(@developer_branch_github_api_url,
+      :headers => { 'Authorization' => "token #{@user.github_token}",
+                    'Content-Type' => 'application/json',
+                    'User-Agent' => 'Code-Karma-API',
+                    'protected' => 'false' }
+    )
+    @head_branches = []
     render 'branches.json.jbuilder'
   end
 
