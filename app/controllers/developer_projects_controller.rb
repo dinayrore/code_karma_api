@@ -3,9 +3,9 @@ class DeveloperProjectsController < ApplicationController
   include DeveloperProjectsHelper
 
   def show
-    find_dev_project_by_id
-    if authorized_developer?
-      show_dev_projects
+    find_developer_by_user_id
+    if verify_account_type
+      show_my_projects
     else
       wrong_user_error
     end
