@@ -1,4 +1,4 @@
-#
+# Included in Developers Controller
 module DevelopersHelper
   def find_user_by_id
     @user = User.find params[:id]
@@ -17,13 +17,28 @@ module DevelopersHelper
     render 'show.json.jbuilder'
   end
 
-  def aggregate_karma_variables
-    @question_likes = KarmaQuestion.find("#{@user.account_id}").question_like
-    @comment_likes = KarmaComment.find("#{@user.account_id}").comment_like
+  def aggregate_karma_questions
+    questions = []
+    questions << KarmaQuestion.find("#{@user.account_id}")
+    @questions = questions.count
+  end
+
+  def aggregate_karma_comments
+    comments = []
+    comments << KarmaComment.find("#{@user.account_id}")
+    @comments = comments.count
+  end
+
+  def aggregate_karma_likes
+    question_likes = KarmaQuestion.find("#{@user.account_id}").question_like
+    comment_likes = KarmaComment.find("#{@user.account_id}").comment_like
+    @likes = (question_likes * 5) + (comment_likes * 5)
   end
 
   def calculate_total_karma
-    @total_karma_points = @question_likes + @comment_likes
+    @total_karma_points = @likes + (@comments * 10) + (@questions * 20)
+    # pull_requests = 200 pts.
+    # total_commits = 5 pts.
   end
 
   def update_karma_points
@@ -37,11 +52,6 @@ module DevelopersHelper
   def edit_developer_skills
     @developer.update developer_params
     render json: @developer
-  end
-
-  def rank_placement_count
-    @developer_count = Developer.all.count
-    @developer_count
   end
 
   def wrong_user_error
