@@ -30,6 +30,11 @@ module KarmaQuestionsHelper
     render 'show.json.jbuilder'
   end
 
+  def destroy_question
+    @question.destroy
+    render json: {}, status: :ok
+  end
+
   def increment_question_like
     @question.update(question_like: params[:question_like].to_i + 1)
     render json: {}, status: :ok

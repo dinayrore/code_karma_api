@@ -21,6 +21,15 @@ class KarmaQuestionsController < ApplicationController
     end
   end
 
+  def destroy
+    find_question
+    if developer?
+      destroy_question
+    else
+      user_error
+    end
+  end
+
   def like
     find_question
     if account_confirmed
