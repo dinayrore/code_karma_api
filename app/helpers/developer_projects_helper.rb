@@ -80,30 +80,34 @@ module DeveloperProjectsHelper
     render 'branches.json.jbuilder'
   end
 
+  def calculate_pull_request_url
+    url = @developer_project.project.github_repo_url
+    owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
+    @owner = owner_repo_array[0]
+    @repo = owner_repo_array[1]
+    @pull_request_url = "https://api.github.com/repos/#{@owner}/#{@repo}/pulls"
+  end
+
+  def pull_request_params
+    @pull_title = "Kristine you should totally accept this Amazing Pull Request."
+    @head_branch = "new_test"
+    @base_branch = "master"
+    @pull_body = "Like seriously plz accept it."
+  end
+
+  def octokit_pull_request
+    client = Octokit::Client.new(:access_token => "#{@user.github_token}")
+    client.create_pull_request("#{@owner}/#{@repo}", "#{@base_branch}", "#{@head_branch}",
+    "#{@pull_title}", "#{@pull_body}")
+  end
+
   def post_pull_request
     find_dev_project_by_id
     set_current_user
-    if is_developer?
-      url = @developer_project.project.github_repo_url
-      owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*)\/(\w*)/).first
-      owner = owner_repo_array[0]
-      repo = owner_repo_array[1]
-      # pull_github_api = "https://api.github.com/repos/#{owner}/#{repo}/pulls"
-      pull_github_api = "https://api.github.com/repos/kteich88/Practice-Rspec/pulls"
-      pull_title = "Kristine you should totally accept this Amazing Pull Request."
-      head_branch = "master"
-      base_branch = "new_test"
-      pull_body = "Like seriously plz accept it."
-      e = HTTParty.post(pull_github_api,
-      :headers => { 'Authorization' => "token #{@user.github_token}",
-                    'Content-Type' => 'application/json',
-                    'User-Agent' => 'Code-Karma-API'},
-
-      :query =>    { 'title' => "#{pull_title}",
-                    'base' => "#{base_branch}",
-                    'head' => "#{head_branch}",
-                    'body' => "#{pull_body}"}
-      )
+    if authorized_developer?
+      calculate_pull_request_url
+      pull_request_params
+      octokit_pull_request
     else
       wrong_syntax_error
     end
