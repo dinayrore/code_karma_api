@@ -45,6 +45,6 @@ class DeveloperProjectsController < ApplicationController
 
   def pull_request
     set_current_user
-    # post_pull_request
+    post_pull_request
   end
 end
