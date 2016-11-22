@@ -1,4 +1,5 @@
-module KarmQuestionsHelper
+# Included in KarmaQuestionsController
+module KarmaQuestionsHelper
   def create_question
     @question = KarmaQuestion.new question_params
     @question.developer_id = @current_user.account_id
