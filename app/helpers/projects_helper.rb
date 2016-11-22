@@ -33,7 +33,7 @@ module ProjectsHelper
 
   def save_project
     @project.save
-    render 'show.json.jbuilder'
+    render 'saved_project.json.jbuilder'
   end
 
   def edit_project
@@ -66,6 +66,30 @@ module ProjectsHelper
     @project = Project.find params[:id]
   end
 
+  def get_github_project_languages
+    generate_language_api_url
+    set_current_user
+    language_request_github
+  end
+
+  def generate_language_api_url
+    url = @project.github_repo_url
+    owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
+    owner = owner_repo_array[0]
+    repo = owner_repo_array[1]
+    @github_language_api_url = "https://api.github.com/repos/#{owner}/#{repo}/languages"
+  end
+
+  def language_request_github
+    @language_response = HTTParty.get(@github_language_api_url,
+      :headers => { 'Authorization' => "token #{@user.github_token}",
+                    'Content-Type' => 'application/json',
+                    'User-Agent' => 'Code-Karma-API' }
+    )
+    @sum = 0
+    @language_percent = []
+  end
+
   def wrong_user_error
     render json: { error: 'Incorrect User' }, status: 403
   end
@@ -78,6 +102,6 @@ module ProjectsHelper
 
   def project_params
     params.permit(:title, :brief_description, :description, :github_repo_url,
-                  :fulfilled, :fix_type)
+                  :active_site_url, :fulfilled, :fix_type)
   end
 end
