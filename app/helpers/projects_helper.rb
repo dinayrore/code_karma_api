@@ -33,7 +33,6 @@ module ProjectsHelper
 
   def save_project
     @project.save
-    binding.pry
     render 'saved_project.json.jbuilder'
   end
 
