@@ -1,2 +1,2 @@
-module SessionHelper
+class SessionHelperTest < ActionView::TestCase
 end

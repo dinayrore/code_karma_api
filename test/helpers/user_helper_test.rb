@@ -1,2 +1,2 @@
-module UserHelper
+class UserHelperTest < ActionView::TestCase
 end

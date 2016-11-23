@@ -1,2 +1,2 @@
-module ProjectHelper
+class ProjectHelperTest < ActionView::TestCase
 end

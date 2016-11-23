@@ -1,2 +1,2 @@
-module KarmaQuestionHelper
+class KarmaQuestionHelperTest < ActionView::TestCase
 end

@@ -1,2 +1,2 @@
-module ClientHelper
+class ClientHelperTest < ActionView::TestCase
 end

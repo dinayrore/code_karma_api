@@ -1,2 +1,2 @@
-module DeveloperProjectHelper
+class DeveloperProjectHelperTest < ActionView::TestCase
 end
