@@ -40,6 +40,14 @@ module KarmaQuestionsHelper
     render json: {}, status: :ok
   end
 
+  def update_question_karma_points
+    questions = KarmaQuestion.where(id: KarmaQuestion.last.id)
+    @questions = questions.length
+    developer = Developer.find(@current_user.account_id)
+    developer.karma_points = (@questions + 19) + developer.karma_points
+    developer.save
+  end
+
   def user_error
     render json: { error: 'Incorrect User' }, status: 403
   end
