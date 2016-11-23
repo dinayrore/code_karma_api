@@ -30,7 +30,7 @@ module ProjectsHelper
   end
 
   def show_client_projects
-    render json: @projects
+    render 'show.json.jbuilder'
   end
 
   def new_project
@@ -40,7 +40,7 @@ module ProjectsHelper
 
   def save_project
     @project.save
-    render 'saved_project.json.jbuilder'
+    render 'show.json.jbuilder'
   end
 
   def edit_project
