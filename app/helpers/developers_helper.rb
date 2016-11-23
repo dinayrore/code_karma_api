@@ -38,7 +38,6 @@ module DevelopersHelper
     render :rank
   end
 
-
   private
 
   def developer_params
