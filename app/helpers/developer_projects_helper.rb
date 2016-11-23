@@ -10,7 +10,7 @@ module DeveloperProjectsHelper
 
   def show_dev_projects
     @developer_projects = DeveloperProject.where(developer_id: @current_user.account.id)
-    render json: @developer_projects
+    render 'show.json.jbuilder'
   end
 
   def run_create_dev_project
