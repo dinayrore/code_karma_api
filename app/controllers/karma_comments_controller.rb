@@ -16,6 +16,7 @@ class KarmaCommentsController < ApplicationController
     set_account
     if developer?
       save_comment
+      update_comment_karma_points
     else
       syntax_error
     end
