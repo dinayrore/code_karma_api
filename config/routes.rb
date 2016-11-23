@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   post '/projects/:id', to: 'projects#fork'
 
+  get '/developers_my_projects/:id', to: 'developer_projects#show'
+
   get '/developers/karma/:id', to: 'developers#karma'
   get '/developers/rank', to: 'developers#rank'
 
