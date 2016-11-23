@@ -47,14 +47,6 @@ module DeveloperProjectsHelper
     @developer_project = DeveloperProject.find params[:id]
   end
 
-  def get_github_project_branches
-    find_dev_project_by_id
-    calculate_client_branch_request_url
-    client_branch_request_github
-    calculate_developer_branch_request_url
-    developer_branch_request_github
-  end
-
   def calculate_client_branch_request_url
     url = @developer_project.project.github_repo_url
     owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
@@ -73,12 +65,13 @@ module DeveloperProjectsHelper
     @base_branches = []
   end
 
-  def calculate_client_branch_request_url
+  def calculate_developer_branch_request_url
     url = @developer_project.project.github_repo_url
     owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
     owner = owner_repo_array[0]
     repo = owner_repo_array[1]
-    @developer_branch_github_api_url = "https://api.github.com/repos/#{owner}/#{repo}/branches"
+    @username = JSON.parse(@user.github_oauth_data)['info']['nickname']
+    @developer_branch_github_api_url = "https://api.github.com/repos/#{@username}/#{repo}/branches"
   end
 
   def developer_branch_request_github
@@ -92,18 +85,6 @@ module DeveloperProjectsHelper
     render 'branches.json.jbuilder'
   end
 
-  def post_pull_request
-    find_dev_project_by_id
-    set_current_user
-    if authorized_developer?
-      capture_owner_repo
-      pull_request_params
-      octokit_pull_request
-    else
-      wrong_syntax_error
-    end
-  end
-
   def capture_owner_repo
     url = @developer_project.project.github_repo_url
     owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
@@ -112,16 +93,17 @@ module DeveloperProjectsHelper
   end
 
   def pull_request_params
-    @base_fork = "#{@owner}/#{@repo}"
-    @base_branch = "master"
-
     @username = JSON.parse(@user.github_oauth_data)['info']['name']
-
+    @base_fork = "#{@owner}/#{@repo}"
     @head_fork = "#{@username}/#{@repo}"
-    @head_branch = "new_test"
+    user_filled_params
+  end
 
-    @pull_title = "Kristine you should totally accept this Amazing Pull Request."
-    @pull_body = "Like seriously plz accept it."
+  def user_filled_params
+    @base_branch = params[:base]
+    @head_branch = params[:head]
+    @pull_title = params[:title]
+    @pull_body = params[:body]
   end
 
   def octokit_pull_request
@@ -144,24 +126,3 @@ module DeveloperProjectsHelper
     params.permit(:percentage_complete, :est_completion_date, :project_id)
   end
 end
-
-# def calculate_pull_request_url
-#   # @pull_request_url = "https://api.github.com/#{@base_fork}/compare/#{@base_branch}...#{@username}:#{@head_branch}"
-#   @pull_request_url = "https://api.github.com/repos/#{@owner}/#{@repo}/pulls"
-# end
-#
-# def create_fork_pull_request
-#   @fork_pull_response = HTTParty.post(@pull_request_url,
-#     :headers => { 'Authorization' => "token #{@user.github_token}",
-#                   'Content-Type' => 'application/json',
-#                   'User-Agent' => 'Code-Karma-API'},
-#
-#     :body =>    {
-#                   # 'base-fork' => "#{@base_fork}",
-#                   # 'head-fork' => "#{@username}:#{@repo}",
-#                   'title' => "#{@pull_title}",
-#                   'base' => "#{@base_branch}",
-#                   'head' => "#{@username}:#{@head_branch}",
-#                   'body' => "#{@pull_body}"}
-#   )
-# end
