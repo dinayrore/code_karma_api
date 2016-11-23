@@ -1,0 +1,2 @@
+module KarmaCommentHelper
+end
