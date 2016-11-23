@@ -3,8 +3,8 @@ class DeveloperProjectsController < ApplicationController
   include DeveloperProjectsHelper
 
   def show
-    find_dev_project_by_id
-    if authorized_developer?
+    set_current_user
+    if current_user
       show_dev_projects
     else
       wrong_user_error
