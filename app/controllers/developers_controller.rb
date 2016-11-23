@@ -22,19 +22,6 @@ class DevelopersController < ApplicationController
     end
   end
 
-  def karma
-    find_user_by_id
-    if is_developer?
-      aggregate_karma_likes
-      aggregate_karma_questions
-      aggregate_karma_comments
-      calculate_total_karma
-      update_karma_points
-    else
-      wrong_user_error
-    end
-  end
-
   def rank
     leaderboard_order_by_descending
     leaderboard_total_developer_count
