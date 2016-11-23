@@ -1,2 +1,4 @@
-module SessionHelper
+require 'test_helper'
+
+class SessionHelperTest < ActionView::TestCase
 end

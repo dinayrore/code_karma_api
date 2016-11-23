@@ -40,7 +40,11 @@ class DeveloperProjectsController < ApplicationController
 
   def github_branches
     set_current_user
-    get_github_project_branches
+    find_dev_project_by_id
+    calculate_client_branch_request_url
+    client_branch_request_github
+    calculate_developer_branch_request_url
+    developer_branch_request_github
   end
 
   def commits
@@ -51,6 +55,13 @@ class DeveloperProjectsController < ApplicationController
 
   def pull_request
     set_current_user
-    post_pull_request
+    find_dev_project_by_id
+    if authorized_developer?
+      capture_owner_repo
+      pull_request_params
+      octokit_pull_request
+    else
+      wrong_syntax_error
+    end
   end
 end
