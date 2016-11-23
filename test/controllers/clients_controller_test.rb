@@ -1,4 +1,4 @@
-class ClientsControllerTest < ActionDispatch::IntegrationTest
+require 'test_helper'
 
-  end
+class ClientsControllerTest < ActionDispatch::IntegrationTest
 end

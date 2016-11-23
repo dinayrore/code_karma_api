@@ -1,4 +1,4 @@
-class KarmaQuestionsControllerTest < ActionDispatch::IntegrationTest
+require 'test_helper'
 
-  end
+class KarmaQuestionsControllerTest < ActionDispatch::IntegrationTest
 end
