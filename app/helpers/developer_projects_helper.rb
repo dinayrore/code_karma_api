@@ -93,10 +93,10 @@ module DeveloperProjectsHelper
                     'User-Agent' => 'Code-Karma-API',
                     'protected' => 'false' }
     )
-    if @commit_response[1]['total'] > @commit_response[0]['total']
-      render json: @commit_response[1]['total'] if @commit_response[1]['author']['login'] == JSON.parse(@user.github_oauth_data)['info']['nickname']
+    if @commit_response[0]['author']['login'] == JSON.parse(@user.github_oauth_data)['info']['nickname']
+      render json: @commit_response[0]['total']
     else
-      render json: @commit_response[0]['total'] if @commit_response[0]['author']['login'] == JSON.parse(@user.github_oauth_data)['info']['nickname']
+      render json: @commit_response[1]['total']
     end
   end
 
