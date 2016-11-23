@@ -47,6 +47,12 @@ class DeveloperProjectsController < ApplicationController
     developer_branch_request_github
   end
 
+  def commits
+    find_dev_project_by_id
+    set_current_user
+    count_commits
+  end
+
   def pull_request
     set_current_user
     find_dev_project_by_id

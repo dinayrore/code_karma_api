@@ -47,12 +47,33 @@ module DeveloperProjectsHelper
     @developer_project = DeveloperProject.find params[:id]
   end
 
+  def get_github_project_branches
+    find_dev_project_by_id
+    calculate_client_branch_request_url
+    client_branch_request_github
+    calculate_developer_branch_request_url
+    developer_branch_request_github
+  end
+
+  def count_commits
+    calculate_commit_request_url
+    commit_request_github
+  end
+
   def calculate_client_branch_request_url
     url = @developer_project.project.github_repo_url
     owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
     owner = owner_repo_array[0]
     repo = owner_repo_array[1]
     @client_branch_github_api_url = "https://api.github.com/repos/#{owner}/#{repo}/branches"
+  end
+
+  def calculate_commit_request_url
+    url = @developer_project.project.github_repo_url
+    owner_repo_array = url.scan(/https\:\/\/github\.com\/(\w*-?\w*)\/(\w*-?\w*)/).first
+    owner = JSON.parse(@user.github_oauth_data)['info']['nickname']
+    repo = owner_repo_array[1]
+    @commit_github_api_url = "https://api.github.com/repos/#{owner}/#{repo}/stats/contributors"
   end
 
   def client_branch_request_github
@@ -63,6 +84,20 @@ module DeveloperProjectsHelper
                     'protected' => 'false' }
     )
     @base_branches = []
+  end
+
+  def commit_request_github
+    @commit_response = HTTParty.get(@commit_github_api_url,
+      :headers => { 'Authorization' => "token #{@user.github_token}",
+                    'Content-Type' => 'application/json',
+                    'User-Agent' => 'Code-Karma-API',
+                    'protected' => 'false' }
+    )
+    if @commit_response[1]['total'] > @commit_response[0]['total']
+      render json: @commit_response[1]['total'] if @commit_response[1]['author']['login'] == JSON.parse(@user.github_oauth_data)['info']['nickname']
+    else
+      render json: @commit_response[0]['total'] if @commit_response[0]['author']['login'] == JSON.parse(@user.github_oauth_data)['info']['nickname']
+    end
   end
 
   def calculate_developer_branch_request_url
