@@ -49,6 +49,14 @@ module KarmaCommentsHelper
     render json: {}, status: :ok
   end
 
+  def update_comment_karma_points
+    comments = KarmaComment.where(id: KarmaComment.last.id)
+    @comments = comments.length
+    developer = Developer.find(@current_user.account_id)
+    developer.karma_points = (@comments + 9) + developer.karma_points
+    developer.save
+  end
+
   def user_error
     render json: { error: 'Incorrect User' }, status: 403
   end
