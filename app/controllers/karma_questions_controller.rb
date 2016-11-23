@@ -1,39 +1,41 @@
 # Community Feed Questions Controller
 class KarmaQuestionsController < ApplicationController
+  include KarmaQuestionsHelper
+
   def create
-    @question = KarmaQuestion.new question_params
-    @question.developer_id = @current_user.account_id
-    if @question.developer == @current_user.account
-      @question.save
-      render json: @question
+    create_new_question
+    set_account_id
+    if developer?
+      save_question
     else
-      render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
+      user_error
     end
   end
 
   def update
-    @question = KarmaQuestion.find params[:id]
-    if @question.developer == @current_user.account
-      @question.update question_params
-      render json: @question
+    find_question
+    if developer?
+      update_question
     else
-      render json: { error: 'Incorrect User' }, status: 403
+      user_error
+    end
+  end
+
+  def destroy
+    find_question
+    if developer?
+      destroy_question
+    else
+      user_error
     end
   end
 
   def like
-    @question = KarmaQuestion.find params[:id]
-    if @question.developer.user.account_type == 'Developer'
-      @question.update(question_like: params[:question_like].to_i + 1)
-      render json: @question
+    find_question
+    if account_confirmed
+      increment_question_like
     else
-      render json: { errors: 'Semantically Erroneous Instructions' }, status: 422
+      user_error
     end
-  end
-
-  private
-
-  def question_params
-    params.permit(:karma_question)
   end
 end

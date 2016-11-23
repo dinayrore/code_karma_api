@@ -12,7 +12,7 @@ module KarmaCommentsHelper
     @comment.developer_id = @current_user.account_id
   end
 
-  def verify_account
+  def developer?
     @comment.developer == @current_user.account
   end
 
@@ -46,7 +46,7 @@ module KarmaCommentsHelper
 
   def increment_like
     @comment.update(comment_like: params[:comment_like].to_i + 1)
-    render 'like.json.jbuilder'
+    render json: {}, status: :ok
   end
 
   def user_error

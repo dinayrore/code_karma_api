@@ -12,6 +12,10 @@ module ProjectsHelper
     @user.account_type == 'Developer'
   end
 
+  def client?
+    @current_user.account_type == 'Client'
+  end
+
   def project_owner_client
     @project.client == @current_user.account
   end
@@ -21,9 +25,12 @@ module ProjectsHelper
     render 'index.json.jbuilder'
   end
 
+  def find_client_projects
+    @projects = Project.where(client_id: @current_user.account.id)
+  end
+
   def show_client_projects
-    @client_projects = Project.where(client_id: @current_user.account.id)
-    render json: @client_projects
+    render 'show.json.jbuilder'
   end
 
   def new_project
@@ -33,8 +40,7 @@ module ProjectsHelper
 
   def save_project
     @project.save
-    binding.pry
-    render 'saved_project.json.jbuilder'
+    render 'show.json.jbuilder'
   end
 
   def edit_project
@@ -101,7 +107,8 @@ module ProjectsHelper
   def create_language_value
     @language_percent = []
     @language_response.each do |language|
-      @language_percent << { language.first => (language.second * 100) / @sum}
+      @language_percent << {'language_name' => language.first,
+                            'language_percent' => (language.second * 100) / @sum}
     end
     @project.languages = JSON.parse(@language_percent.to_json)
   end
@@ -118,6 +125,6 @@ module ProjectsHelper
 
   def project_params
     params.permit(:title, :brief_description, :description, :github_repo_url,
-                  :active_site_url, :fulfilled, :fix_type)
+                  :active_site_url, :fulfilled, :fix_type, :languages)
   end
 end

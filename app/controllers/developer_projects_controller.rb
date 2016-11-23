@@ -43,6 +43,12 @@ class DeveloperProjectsController < ApplicationController
     get_github_project_branches
   end
 
+  def commits
+    find_dev_project_by_id
+    set_current_user
+    count_commits
+  end
+
   def pull_request
     set_current_user
     post_pull_request

@@ -1,34 +1,28 @@
+# Included in ClientsController
 module ClientsHelper
-  def find_a_user
+  def find_user
     @user = User.find params[:id]
   end
 
-  def confirm_account_type_client
+  def confirm_account_type
     @user.account_type == 'Client'
   end
 
-  def client_equals_user_account
+  def identify_client
     @client = @user.account
-  end
-
-  def github_oauth_data
     @client_dashboard_data = @user.github_oauth_data
   end
 
-  def render_json_show
+  def show_client_user_data
     render 'show.json.jbuilder'
   end
 
-  def render_incorrect_user_error
-    render json: { error: 'Incorrect User' }, status: 403
-  end
-
-  def update_client
+  def edit_client_params
     @client.update client_params
   end
 
-  def render_json_client
-    render json: @client
+  def user_error
+    render json: { error: 'Incorrect User' }, status: 403
   end
 
   private
