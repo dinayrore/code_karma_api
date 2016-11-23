@@ -7,6 +7,7 @@ class KarmaQuestionsController < ApplicationController
     set_account_id
     if developer?
       save_question
+      update_question_karma_points
     else
       user_error
     end
