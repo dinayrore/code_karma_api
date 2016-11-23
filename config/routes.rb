@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get '/developers/karma/:id', to: 'developers#karma'
   get '/developers/rank', to: 'developers#rank'
 
-  get '/developer_projects/:id', to: 'developer_projects#github_branches'
+  get '/branches/:id', to: 'developer_projects#github_branches'
   get '/commits/:id', to: 'developer_projects#commits'
   post '/developer_projects/:id', to: 'developer_projects#pull_request'
 
