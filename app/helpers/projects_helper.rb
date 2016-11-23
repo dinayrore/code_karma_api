@@ -40,6 +40,7 @@ module ProjectsHelper
 
   def save_project
     @project.save
+    find_client_projects
     render 'show.json.jbuilder'
   end
 
