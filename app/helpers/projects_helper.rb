@@ -125,6 +125,6 @@ module ProjectsHelper
 
   def project_params
     params.permit(:title, :brief_description, :description, :github_repo_url,
-                  :active_site_url, :fulfilled, :fix_type)
+                  :active_site_url, :fulfilled, :fix_type, :languages)
   end
 end
