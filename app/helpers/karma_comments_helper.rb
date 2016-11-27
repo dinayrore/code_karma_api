@@ -17,7 +17,7 @@ module KarmaCommentsHelper
   end
 
   def show_all_questions_and_comments
-    @questions = KarmaQuestion.all
+    @questions = KarmaQuestion.order('created_at')
     render 'index.json.jbuilder'
   end
 
