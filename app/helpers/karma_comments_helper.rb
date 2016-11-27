@@ -8,6 +8,11 @@ module KarmaCommentsHelper
     @user.account_type == 'Developer'
   end
 
+  def account_confirmed
+    binding.pry
+    @current_user.account_type == @comment.developer.user.account_type
+  end
+
   def set_account
     @comment.developer_id = @current_user.account_id
   end
