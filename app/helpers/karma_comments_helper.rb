@@ -9,7 +9,6 @@ module KarmaCommentsHelper
   end
 
   def account_confirmed
-    binding.pry
     @current_user.account_type == @comment.developer.user.account_type
   end
 
