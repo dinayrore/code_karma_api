@@ -42,7 +42,7 @@ class KarmaCommentsController < ApplicationController
 
   def like
     find_comment
-    if developer?
+    if verify_account_type
       increment_like
     else
       user_error
