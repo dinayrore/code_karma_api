@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161122193659) do
+ActiveRecord::Schema.define(version: 20161118142306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20161122193659) do
 
   create_table "developers", force: :cascade do |t|
     t.integer  "karma_points", default: 0
+    t.integer  "commits",      default: 0
     t.string   "skills"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
@@ -67,10 +68,10 @@ ActiveRecord::Schema.define(version: 20161122193659) do
     t.string   "github_repo_url",                   null: false
     t.string   "fix_type"
     t.boolean  "fulfilled",         default: false
+    t.json     "languages"
     t.integer  "client_id"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.json     "languages"
     t.index ["client_id"], name: "index_projects_on_client_id", using: :btree
   end
 
