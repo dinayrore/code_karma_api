@@ -8,6 +8,7 @@ class CreateProjects < ActiveRecord::Migration[5.0]
       t.string :github_repo_url, null: false
       t.string :fix_type
       t.boolean :fulfilled, default: false
+      t.json :languages
       t.references :client, index: true, foreign_key: true
 
       t.timestamps
