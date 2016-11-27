@@ -18,7 +18,6 @@ module KarmaCommentsHelper
 
   def show_all_questions_and_comments
     @questions = KarmaQuestion.order('created_at')
-    @comments = KarmaComment.order('created_at')
     render 'index.json.jbuilder'
   end
 
