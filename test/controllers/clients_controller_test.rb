@@ -1,27 +1,15 @@
 require 'test_helper'
 
 class ClientsControllerTest < ActionDispatch::IntegrationTest
-  test 'Find user by id' do
+  test 'Shows client information' do
 
   end
 
-  test 'User account type is client' do
+  test 'Updates and shows new client information' do
 
   end
 
-  test 'Identifies users github information' do
-
-  end
-
-  test 'Renders users github information' do
-
-  end
-
-  test 'Renders user error' do
-
-  end
-
-  test 'Edits client information' do
+  test 'Renders user error, incorrect user' do
 
   end
 end
