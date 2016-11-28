@@ -1,15 +1,12 @@
 require 'test_helper'
-
+# polymorphic user relationship, has many projects
 class ClientTest < ActiveSupport::TestCase
-  test 'Has one relationship with user model' do
-
+  def setup
+    client = Client.create
+    @user = User.new(account_id: client.id, account_type: 'Client', code_karma_token: SecureRandom.uuid, github_token: SecureRandom.uuid, github_oauth_data: "{\"provider\":\"github\"}", email: 'email@example.com')
   end
 
-  test 'Has many relationship with project model' do
-
-  end
-
-  test 'Related to user model through account with polymorphic relationship' do
-
+  test '#project' do
+    assert true, @user.account.project
   end
 end
