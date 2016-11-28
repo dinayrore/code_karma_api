@@ -21,7 +21,7 @@ class KarmaQuestionsControllerTest < ActionDispatch::IntegrationTest
 
   end
 
-  test 'Renders user error if the developer updating the question is not the author' do
+  test 'Renders user error' do
 
   end
 
@@ -33,19 +33,11 @@ class KarmaQuestionsControllerTest < ActionDispatch::IntegrationTest
 
   end
 
-  test 'Renders user error if the developer deleting the question is not the author' do
-
-  end
-
   test 'Question being liked is identied by id' do
 
   end
 
   test 'If the current user is a developer increment question like' do
-
-  end
-
-  test 'Renders user error if user is not developer' do
 
   end
 end
