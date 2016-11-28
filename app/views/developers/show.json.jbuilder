@@ -4,3 +4,5 @@ json.email JSON.parse(@developer_dashboard_data)['info']['email']
 json.image JSON.parse(@developer_dashboard_data)['info']['image']
 json.github JSON.parse(@developer_dashboard_data)['info']['urls']['GitHub']
 json.call(@developer, :skills)
+json.call(@developer, :karma_points)
+json.call(@developer, :commits)
