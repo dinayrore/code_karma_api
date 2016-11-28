@@ -8,6 +8,10 @@ module KarmaCommentsHelper
     @user.account_type == 'Developer'
   end
 
+  def account_confirmed
+    @current_user.account_type == @comment.developer.user.account_type
+  end
+
   def set_account
     @comment.developer_id = @current_user.account_id
   end
@@ -17,7 +21,7 @@ module KarmaCommentsHelper
   end
 
   def show_all_questions_and_comments
-    @questions = KarmaQuestion.all
+    @questions = KarmaQuestion.order('created_at')
     render 'index.json.jbuilder'
   end
 
