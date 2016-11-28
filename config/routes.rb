@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   get '/developers/rank', to: 'developers#rank'
 
   get '/branches/:id', to: 'developer_projects#github_branches'
-  get '/commits/:id', to: 'developer_projects#commits'
   post '/developer_projects/:id', to: 'developer_projects#pull_request'
 
   put '/karma_question/:id', to: 'karma_questions#like'
