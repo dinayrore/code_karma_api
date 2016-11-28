@@ -9,7 +9,7 @@ class KarmaCommentsControllerTest < ActionDispatch::IntegrationTest
 
   end
 
-  test 'Show all questions and comments if account type is verified' do
+  test 'Show all questions and comments ordered by creation time' do
 
   end
 
@@ -21,11 +21,11 @@ class KarmaCommentsControllerTest < ActionDispatch::IntegrationTest
 
   end
 
-  test 'Developer id is equal to the current users account id' do
+  test 'Comments author is the current user' do
 
   end
 
-  test 'Save comment is the current users account type is developer' do
+  test 'Save comment if the current users account type is developer' do
 
   end
 
@@ -41,31 +41,11 @@ class KarmaCommentsControllerTest < ActionDispatch::IntegrationTest
 
   end
 
-  test 'Render user error if comments author is not current user' do
-
-  end
-
-  test 'Comment is identified by id' do
-
-  end
-
   test 'Delete comment if the comments author is the current user' do
 
   end
 
-  test 'Render user error if comments author is not current user' do
-
-  end
-
-  test 'Comment is identified by id' do
-
-  end
-
   test 'Increment like if current users account type is developer' do
-    
-  end
-
-  test 'Render user error if current users account type is not developer' do
 
   end
 end
