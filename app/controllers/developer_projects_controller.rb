@@ -48,9 +48,7 @@ class DeveloperProjectsController < ApplicationController
   end
 
   def commits
-    find_dev_project_by_id
-    set_current_user
-    count_commits
+    
   end
 
   def pull_request
@@ -60,6 +58,8 @@ class DeveloperProjectsController < ApplicationController
       capture_owner_repo
       pull_request_params
       octokit_pull_request
+      count_commits
+      update_karma_points
     else
       wrong_syntax_error
     end
