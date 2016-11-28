@@ -93,12 +93,20 @@ module DeveloperProjectsHelper
                     'User-Agent' => 'Code-Karma-API',
                     'protected' => 'false' }
     )
+    @developer = @current_user.account
     if @commit_response[0]['author']['login'] == JSON.parse(@user.github_oauth_data)['info']['nickname']
-      render json: @commit_response[0]['total']
+      @developer.update(commits: @commit_response[0]['total'])
     else
-      render json: @commit_response[1]['total']
+      @developer.update(commits: @commit_response[1]['total'])
     end
+      @commits = @developer.commits
   end
+
+  def update_karma_points
+    @developer.karma_points = (@commits + 2) + @developer.karma_points
+    @developer.save
+  end
+
 
   def calculate_developer_branch_request_url
     url = @developer_project.project.github_repo_url
@@ -128,7 +136,7 @@ module DeveloperProjectsHelper
   end
 
   def pull_request_params
-    @username = JSON.parse(@user.github_oauth_data)['info']['name']
+    @username = JSON.parse(@user.github_oauth_data)['info']['nickname']
     @base_fork = "#{@owner}/#{@repo}"
     @head_fork = "#{@username}/#{@repo}"
     user_filled_params
