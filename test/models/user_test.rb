@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'Belongs to relationship with account polymorphic adapter' do
+
+  end
 end
