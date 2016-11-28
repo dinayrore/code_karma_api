@@ -1,23 +1,20 @@
 require 'test_helper'
-
+# polymorphic user relationship, has many questions, comments, and projects
 class DeveloperTest < ActiveSupport::TestCase
-  test 'Has many relationship with karma question model' do
-
+  def setup
+    developer = Developer.create
+    @user = User.new(account_id: developer.id, account_type: 'Developer', code_karma_token: SecureRandom.uuid, github_token: SecureRandom.uuid, github_oauth_data: "{\"provider\":\"github\"}", email: 'email@example.com')
   end
 
-  test 'Has many relationship with karma comment model' do
-
+  test '#karma_question' do
+    assert true, @user.account.karma_question
   end
 
-  test 'Has many relationship with developer project model' do
-
+  test '#karma_comment' do
+    assert true, @user.account.karma_comment
   end
 
-  test 'Has one relationship with user model' do
-
-  end
-
-  test 'Related to user model through account with polymorphic relationship' do
-
+  test '#developer_project' do
+    assert true, @user.account.developer_project
   end
 end
