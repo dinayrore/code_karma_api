@@ -95,9 +95,9 @@ module DeveloperProjectsHelper
     )
     @developer = @current_user.account
     if @commit_response[0]['author']['login'] == JSON.parse(@user.github_oauth_data)['info']['nickname']
-      @developer.update(commits: @commit_response[0]['total'])
+      @developer.update(commits: (@developer.commits + @commit_response[0]['total']))
     else
-      @developer.update(commits: @commit_response[1]['total'])
+      @developer.update(commits: (@developer.commits + @commit_response[1]['total']))
     end
       @commits = @developer.commits
   end
