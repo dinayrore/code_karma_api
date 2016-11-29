@@ -1,5 +1,5 @@
 require 'test_helper'
-
+#
 class KarmaCommentTest < ActiveSupport::TestCase
   test 'Belongs to relationship with developer model' do
 
